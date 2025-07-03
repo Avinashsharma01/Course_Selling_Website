@@ -5,6 +5,8 @@ import express from "express";
 import cors from "cors";
 import contactRoute from "./routes/contact.route.js";
 import connectToDb from "./database/db.js";
+import userRoutes from './routes/user.route.js';
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,6 +23,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/api", contactRoute);
+app.use('/api/user', userRoutes);
 
 // Start server
 app.listen(port, async () => {
