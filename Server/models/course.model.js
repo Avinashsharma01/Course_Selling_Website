@@ -1,16 +1,18 @@
 import mongoose from 'mongoose';
 
 const courseSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
+  title: String,
   description: String,
   price: Number,
-  instructor: String,
-  duration: String,
-}, {
-  timestamps: true
+  imageLink: String,
+  published: Boolean
 });
 
-export const Course = mongoose.model('Course', courseSchema);
+// Make sure the third argument ('course') matches your collection name in Atlas exactly
+// models/course.model.js
+const Course = mongoose.model('Course', courseSchema, 'courses');
+export default Course;
+ // <-- 'courses', not 'course'
+
+
+
