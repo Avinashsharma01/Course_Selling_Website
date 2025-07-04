@@ -1,16 +1,25 @@
-import dotenv from "dotenv"
-dotenv.config()
-import express from "express"
+import express from 'express';
+import dotenv from 'dotenv';
+import { connectDB } from './database/db.js';
+import courseRoutes from './routes/course.route.js';
 
-const app = express()
+dotenv.config();
+const app = express();
 
-const port = process.env.PORT || 3000;
+app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send("Server is live")
-})
+// Connect to DB
+connectDB();
 
+// Routes
+app.use('/courses', courseRoutes);
 
-app.listen(port, () => {
-    console.log(`Server is live on port number ${port}`);
-})
+// Default route
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
