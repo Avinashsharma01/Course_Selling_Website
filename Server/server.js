@@ -8,6 +8,8 @@ import cors from "cors";
 import contactRoute from "./routes/contact.route.js";
 import userRoutes from './routes/user.route.js';
 import courseRoutes from './routes/course.route.js'; // ✅ import course routes
+import enrollmentRoutes from './routes/enrollment.route.js';
+
 
 import connectToDb from "./database/db.js";
 
@@ -28,6 +30,8 @@ app.get("/", (req, res) => {
 app.use("/api", contactRoute);
 app.use("/api/user", userRoutes);
 app.use("/api/courses", courseRoutes); // ✅ mount course routes
+app.use("/api/enrollments", enrollmentRoutes);
+
 
 // Start server
 app.listen(port, async () => {
