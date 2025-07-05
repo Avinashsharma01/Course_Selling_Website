@@ -1,4 +1,4 @@
-import Contact from "../models/contant.model.js";
+import Contact from "../models/contact.model.js";
 
 
 
