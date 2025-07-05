@@ -36,7 +36,7 @@ const deleteCourse = async (req, res) => {
 // User: Get all available courses
 const getAllCourses = async (req, res) => {
   try {
-    const courses = await Course.find({ published: true });
+    const courses = await Course.find(); // ⬅️ removed published filter
     res.status(200).json(courses);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
