@@ -1,39 +1,36 @@
-This module allows users to:
-
+✅ Functionality Covered
 View all available courses
 
 View course details by ID
 
-ADD , DELETE , UPDATE courses
+Add, Update, Delete courses (Admin only)
 
-Enroll in a course (with authentication)
+Enroll in a course (Authenticated users only)
 
+📂 Files You Worked On
 
+models/course.model.js	Defines course schema/model
+controllers/course.controller.js	Handles course logic (get/add/update/delete)
+routes/course.route.js	Course-related routes for users & admins
+models/enrollment.model.js	Defines enrollment schema
+controllers/enrollment.controller.js	Handles user enrollment logic
+routes/enrollment.route.js	Route for enrolling in a course
 
-📂 Files Worked On
+🔗 API Endpoints
 
-models/course.model.js -> Course schema/model
-controllers/course.controller.js -> Logic for fetching course data
-routes/course.route.js -> Routes for user/admin to access courses
-models/enrollment.model.js ->	Schema for linking users to courses
-controllers/enrollment.controller.js ->	Logic for enrolling users
-routes/enrollment.route.js ->	Route for course enrollment
+GET	/api/courses	Public	View all published courses
+GET	/api/courses/:id	Public	View specific course by ID
+POST	/api/courses/admin	Admin Only	Add a new course
+PUT	/api/courses/admin/:id	Admin Only	Update a course
+DELETE	/api/courses/admin/:id	Admin Only	Delete a course
 
-📌 API Endpoints
-📘 Course Routes (Public + Admin)
+🎓 Enrollment
 
-GET	/api/courses	(Public) ->	View all published courses
-GET	/api/courses/:id	(Public	) ->View course details by ID
-POST	/api/courses/admin	(Admin Only) ->	Add a new course
-PUT	/api/courses/admin/:id	(Admin Only) ->	Update a course
-DELETE	/api/courses/admin/:id	(Admin Only	) ->Delete a course
+POST	/api/enrollments	User Only	Enroll in a course (JWT required)
 
-🎓 Enrollment Routes
+🛡 Requires Bearer Token in Authorization Header after login
 
-POST	/api/enrollments	(User Only)	Enroll in a course (JWT required)
+✅ Tested With Postman
+All endpoints verified with MongoDB Atlas
 
-
-Requires Bearer <JWT token> in header (after login)
-
-✅ Tested with Postman
-All endpoints tested and connected to MongoDB Atlas for persistent data.
+Secure access tested using JWT-based auth
