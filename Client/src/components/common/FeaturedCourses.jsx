@@ -44,7 +44,7 @@ const FeaturedCourses = () => {
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-bold text-green-600">{c.price}</span>
                     <Link
-                      to="/courses"
+                      to={`/courses/${c.id}`}
                       className="text-sm text-blue-600 font-medium hover:underline flex items-center gap-1"
                     >
                       View&nbsp;Details <FaArrowRight className="text-xs mt-[2px]" />
