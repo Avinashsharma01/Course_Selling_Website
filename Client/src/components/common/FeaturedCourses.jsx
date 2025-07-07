@@ -5,50 +5,7 @@ import { FaArrowRight } from 'react-icons/fa6';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 
-const dummyCourses = [
-  {
-    id: 1,
-    title: 'Full‑Stack Web Development',
-    desc: 'Build modern websites with React, Node & MongoDB.',
-    price: '₹1499',
-    image: 'https://source.unsplash.com/400x250/?coding,webdev',
-  },
-  {
-    id: 2,
-    title: 'Cyber Security Fundamentals',
-    desc: 'Learn ethical hacking, cryptography & network defense.',
-    price: '₹999',
-    image: 'https://source.unsplash.com/400x250/?cybersecurity,hacking',
-  },
-  {
-    id: 3,
-    title: 'Data Science with Python',
-    desc: 'Master data analysis, pandas, and ML techniques.',
-    price: '₹1299',
-    image: 'https://source.unsplash.com/400x250/?data,python',
-  },
-  {
-    id: 4,
-    title: 'Digital Marketing Essentials',
-    desc: 'Grow your business with SEO, SEM & social media.',
-    price: '₹899',
-    image: 'https://source.unsplash.com/400x250/?digitalmarketing,seo',
-  },
-  {
-    id: 5,
-    title: 'UI/UX Design Bootcamp',
-    desc: 'Create stunning user interfaces and experiences.',
-    price: '₹1099',
-    image: 'https://source.unsplash.com/400x250/?uiux,design',
-  },
-  {
-    id: 6,
-    title: 'Mobile App Development',
-    desc: 'Build Android & iOS apps with Flutter and React Native.',
-    price: '₹1399',
-    image: 'https://source.unsplash.com/400x250/?mobileapp,flutter',
-  },
-];
+import { dummyCourses } from '../../api/dummyCourses';
 
 const FeaturedCourses = () => {
   return (
@@ -64,7 +21,7 @@ const FeaturedCourses = () => {
           loop={true}
           freeMode={true}
           grabCursor={true}
-          speed={3000} // smooth slow auto scroll
+          speed={3000}
           autoplay={{
             delay: 0,
             disableOnInteraction: false,
