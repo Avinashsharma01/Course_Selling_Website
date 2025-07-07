@@ -5,21 +5,27 @@ const Navbar = () => {
   const { user, logout } = useAuth();
 
   return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-blue-600 text-white">
-      <h1 className="text-xl font-bold">Course Selling</h1>
-      <ul className="flex gap-4">
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/courses">Courses</Link></li>
-        <li><Link to="/contact">Contact</Link></li>
+    <nav className="flex justify-between items-center px-6 py-4 bg-blue-700 text-white">
+      <h1 className="text-xl font-bold">
+        <Link to="/">CourseSelling</Link>
+      </h1>
+      <ul className="flex gap-5 items-center">
+        <li><Link to="/courses" className="hover:underline">Courses</Link></li>
+        <li><Link to="/contact" className="hover:underline">Contact</Link></li>
+
+        {user?.isAdmin && (
+          <li><Link to="/admin/courses" className="hover:underline">Admin</Link></li>
+        )}
+
         {user ? (
           <>
-            <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><button onClick={logout}>Logout</button></li>
+            <li><Link to="/dashboard" className="hover:underline">Dashboard</Link></li>
+            <li><button onClick={logout} className="hover:text-gray-300">Logout</button></li>
           </>
         ) : (
           <>
-            <li><Link to="/register">Register</Link></li>
-            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/register" className="hover:underline">Register</Link></li>
+            <li><Link to="/login" className="hover:underline">Login</Link></li>
           </>
         )}
       </ul>
