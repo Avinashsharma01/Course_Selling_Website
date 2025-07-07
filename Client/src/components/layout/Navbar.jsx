@@ -1,75 +1,74 @@
 import { Link } from 'react-router-dom';
+import { FaChevronDown, FaSearch, FaUserCircle } from 'react-icons/fa';
 import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
 
   return (
-    <nav className="bg-blue-800 text-white shadow-md px-8 py-4">
-      <div className="flex justify-between items-center">
-        {/* Logo / Brand */}
-        <h1 className="text-2xl font-extrabold tracking-wide text-green-300">
-          <Link to="/">CourseSelling</Link>
-        </h1>
+    <nav className="bg-white shadow-sm border-b">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+        {/* Left: Logo & Explore */}
+        <div className="flex items-center gap-6">
+          <Link to="/" className="text-2xl font-extrabold text-blue-700 tracking-wide">
+            CourseSelling
+          </Link>
 
-        {/* Menu Links */}
-        <ul className="flex items-center gap-6 text-sm font-medium">
-          <li>
-            <Link to="/courses" className="hover:text-green-400 transition-colors duration-200">
-              Courses
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact" className="hover:text-green-400 transition-colors duration-200">
-              Contact
-            </Link>
-          </li>
+          <button className="flex items-center gap-1 text-sm font-medium px-3 py-1 border rounded hover:bg-gray-100 transition">
+            Explore <FaChevronDown size={12} />
+          </button>
+        </div>
 
-          {user?.isAdmin && (
-            <li>
-              <Link to="/admin/courses" className="hover:text-green-400 transition-colors duration-200">
-                Admin
-              </Link>
-            </li>
-          )}
+        {/* Middle: Search */}
+        <div className="flex-1 px-8 max-w-xl hidden md:flex">
+          <div className="flex w-full items-center border rounded-full overflow-hidden shadow-sm">
+            <input
+              type="text"
+              placeholder="What do you want to learn?"
+              className="w-full px-4 py-2 text-sm outline-none"
+            />
+            <button className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full m-1 transition">
+              <FaSearch size={14} />
+            </button>
+          </div>
+        </div>
+
+        {/* Right: Links + Auth */}
+        <div className="flex items-center gap-5 text-sm font-medium text-gray-700">
+          <Link to="/courses" className="hover:text-blue-600 transition">
+            Courses
+          </Link>
+          <Link to="/contact" className="hover:text-blue-600 transition">
+            Contact
+          </Link>
 
           {user ? (
             <>
-              <li>
-                <Link to="/dashboard" className="hover:text-green-400 transition-colors duration-200">
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <button
-                  onClick={logout}
-                  className="px-3 py-1 bg-green-500 hover:bg-green-600 rounded text-white transition-all duration-200"
-                >
-                  Logout
-                </button>
-              </li>
+              <Link to="/dashboard" className="hover:text-blue-600 transition hidden sm:inline">
+                Dashboard
+              </Link>
+              <button
+                onClick={logout}
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded-md transition"
+              >
+                Logout
+              </button>
+              <FaUserCircle size={20} className="text-blue-600" />
             </>
           ) : (
             <>
-              <li>
-                <Link
-                  to="/register"
-                  className="px-3 py-1 bg-green-500 hover:bg-green-600 rounded text-white transition-all duration-200"
-                >
-                  Register
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/login"
-                  className="px-3 py-1 border border-green-400 hover:bg-green-500 hover:text-white rounded transition-all duration-200"
-                >
-                  Login
-                </Link>
-              </li>
+              <Link to="/login" className="text-blue-600 hover:underline">
+                Log In
+              </Link>
+              <Link
+                to="/register"
+                className="border border-blue-500 text-blue-700 font-semibold px-4 py-1 rounded-md hover:bg-blue-50 transition"
+              >
+                Join for Free
+              </Link>
             </>
           )}
-        </ul>
+        </div>
       </div>
     </nav>
   );
