@@ -1,4 +1,4 @@
-import userModel from '../models/user.model.js';
+import AdminModel from '../models/admin.model.js';
 
 const adminMiddleware = async (req, res, next) => {
   try {
@@ -6,12 +6,12 @@ const adminMiddleware = async (req, res, next) => {
       return res.status(401).json({ message: 'unauthorized' });
     }
 
-    const user = await userModel.findById(req.userId);
-    if (!user || !user.isAdmin) {
+    const admin = await AdminModel.findById(req.userId);
+    if (!admin) {
       return res.status(403).json({ message: 'access denied, admin only' });
     }
 
-    req.user = user; // ✅ make user available to next middleware/controller
+    req.admin = admin; // make admin available to next middleware/controller
     next();
   } catch (err) {
     return res.status(500).json({ message: 'server error', error: err.message });
