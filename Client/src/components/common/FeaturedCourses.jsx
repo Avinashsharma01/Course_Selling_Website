@@ -9,7 +9,7 @@ import { dummyCourses } from '../../api/dummyCourses';
 
 const FeaturedCourses = () => {
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-blue-50">
+    <section className="pt-32 pb-16 bg-gradient-to-b from-white to-blue-50">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-blue-700 text-center mb-4">🔥 Featured Courses</h2>
         <p className="text-gray-600 text-center mb-10">

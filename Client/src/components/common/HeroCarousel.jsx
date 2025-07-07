@@ -31,7 +31,9 @@ const HeroCarousel = () => {
   }, []);
 
   return (
-    <section className={`relative overflow-hidden h-[70vh] md:h-[95vh] flex items-center justify-center ${slides[current].bg}`}>
+    <section
+      className={`relative overflow-hidden h-[70vh] md:h-[95vh] flex items-center justify-center pt-32 md:pt-40 ${slides[current].bg}`}
+    >
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
