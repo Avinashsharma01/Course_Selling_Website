@@ -1,4 +1,4 @@
-import loginImage from '../../assets/react.svg'; // You can use any SVG/image here
+import loginImage from '../../assets/react.svg'; // Use any image you like
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
@@ -6,15 +6,22 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleUserLogin = (e) => {
     e.preventDefault();
-    login({ name: 'Ishika', email: 'ishika@example.com' });
+    login({ name: 'Ishika', email: 'ishika@example.com', role: 'user' });
     navigate('/dashboard');
+  };
+
+  const handleAdminLogin = (e) => {
+    e.preventDefault();
+    login({ name: 'Admin', email: 'admin@example.com', role: 'admin' });
+    navigate('/admin/dashboard');
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+        
         {/* Left: Image */}
         <div className="hidden md:flex items-center justify-center bg-blue-100">
           <img src={loginImage} alt="Login Visual" className="w-3/4" />
@@ -25,7 +32,8 @@ const Login = () => {
           <h2 className="text-3xl font-bold text-blue-700 mb-6">Welcome Back</h2>
           <p className="text-sm text-gray-600 mb-6">Please enter your credentials to login</p>
 
-          <form onSubmit={handleLogin} className="space-y-5">
+          {/* Login as User */}
+          <form onSubmit={handleUserLogin} className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
               <input
@@ -48,9 +56,19 @@ const Login = () => {
               type="submit"
               className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition duration-200"
             >
-              Login
+              Login as User
             </button>
           </form>
+
+          {/* Admin Login Button */}
+          <div className="mt-4">
+            <button
+              onClick={handleAdminLogin}
+              className="w-full bg-red-600 text-white font-semibold py-2 rounded-lg hover:bg-red-700 transition duration-200"
+            >
+              Login as Admin
+            </button>
+          </div>
 
           <p className="text-sm text-gray-500 mt-6">
             Don't have an account?{' '}
@@ -65,4 +83,3 @@ const Login = () => {
 };
 
 export default Login;
-

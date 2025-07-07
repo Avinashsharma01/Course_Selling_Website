@@ -1,29 +1,38 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaChevronDown, FaSearch, FaUserCircle } from 'react-icons/fa';
 import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [showExplore, setShowExplore] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const dummyCategories = ['Web Development', 'Data Science', 'Cyber Security', 'AI & ML'];
 
+  // Close dropdowns on route change
+  useEffect(() => {
+    setShowExplore(false);
+    setShowUserMenu(false);
+  }, [location.pathname]);
+
   return (
     <nav className="bg-white shadow-sm border-b relative z-50">
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+        
         {/* Left: Logo & Explore */}
         <div className="flex items-center gap-6 relative">
           <Link to="/" className="text-2xl font-extrabold text-blue-700 tracking-wide">
             CourseSelling
           </Link>
 
+          {/* Explore Dropdown */}
           <div className="relative">
             <button
-              onClick={() => setShowExplore(!showExplore)}
+              onClick={() => setShowExplore((prev) => !prev)}
               className="flex items-center gap-1 text-sm font-medium px-3 py-1 border rounded hover:bg-gray-100 transition"
             >
               Explore <FaChevronDown size={12} />
@@ -36,7 +45,6 @@ const Navbar = () => {
                     key={i}
                     to={`/category/${category.toLowerCase().replace(/\s+/g, '-')}`}
                     className="block px-4 py-2 hover:bg-gray-100 text-sm text-gray-700"
-                    onClick={() => setShowExplore(false)}
                   >
                     {category}
                   </Link>
@@ -46,7 +54,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Middle: Search */}
+        {/* Middle: Search Bar */}
         <div className="flex-1 px-8 max-w-xl hidden md:flex">
           <div className="flex w-full items-center border rounded-full overflow-hidden shadow-sm">
             <input
@@ -60,7 +68,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Right: Navigation Links & Auth */}
+        {/* Right: Links & Auth */}
         <div className="flex items-center gap-5 text-sm font-medium text-gray-700 relative">
           <Link to="/courses" className="hover:text-blue-600 transition">
             Courses
@@ -68,6 +76,13 @@ const Navbar = () => {
           <Link to="/contact" className="hover:text-blue-600 transition">
             Contact
           </Link>
+
+          {/* Admin-only Link */}
+          {user?.role === 'admin' && (
+            <Link to="/admin/dashboard" className="hover:text-blue-600 transition hidden sm:inline">
+              Admin
+            </Link>
+          )}
 
           {user ? (
             <>
@@ -88,22 +103,19 @@ const Navbar = () => {
                     <Link
                       to="/profile"
                       className="block px-4 py-2 hover:bg-gray-100 text-sm"
-                      onClick={() => setShowUserMenu(false)}
                     >
                       Profile
                     </Link>
                     <Link
                       to="/settings"
                       className="block px-4 py-2 hover:bg-gray-100 text-sm"
-                      onClick={() => setShowUserMenu(false)}
                     >
                       Settings
                     </Link>
                     <button
                       onClick={() => {
                         logout();
-                        setShowUserMenu(false);
-                        navigate('/'); // redirect after logout
+                        navigate('/');
                       }}
                       className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 text-sm"
                     >

@@ -5,11 +5,12 @@ import Home from '../pages/home/Home';
 import Courses from '../pages/courses/Courses'; // ✅ make sure it's imported
 import CourseDetail from '../pages/courses/CourseDetail';
 import Dashboard from '../pages/dashboard/Dashboard';
-import AdminCourses from '../pages/dashboard/AdminCourses';
+import AdminCourses from '../pages/dashboard/AdminDashboard';
 import Contact from '../pages/contact/Contact';
 import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
 import NotFound from '../pages/notfound/NotFound';
+import AdminDashboard from '../pages/dashboard/AdminDashboard';
 
 const AppRoutes = () => {
   return (
@@ -19,7 +20,7 @@ const AppRoutes = () => {
         <Route path="courses" element={<Courses />} />              {/* ✅ Active now */}
         <Route path="courses/:id" element={<CourseDetail />} />
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="admin/courses" element={<AdminCourses />} />
+        <Route path="admin/dashboard" element={<AdminDashboard />} />
         <Route path="contact" element={<Contact />} />
       </Route>
 

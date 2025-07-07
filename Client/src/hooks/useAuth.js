@@ -4,7 +4,8 @@ import { useState } from 'react';
 const useAuth = () => {
   const [user, setUser] = useState(null); // null = not logged in
 
-  const login = (dummyUser = { name: 'Ishika', email: 'ishika@example.com' }) => {
+  // Pass role in dummyUser: "user" or "admin"
+  const login = (dummyUser = { name: 'Ishika', email: 'ishika@example.com', role: 'user' }) => {
     setUser(dummyUser);
   };
 
@@ -12,7 +13,9 @@ const useAuth = () => {
     setUser(null);
   };
 
-  return { user, login, logout };
+  const isAdmin = user?.role === 'admin';
+
+  return { user, login, logout, isAdmin };
 };
 
 export default useAuth;
