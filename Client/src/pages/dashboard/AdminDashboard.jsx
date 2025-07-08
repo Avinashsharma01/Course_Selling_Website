@@ -1,133 +1,100 @@
-import { useState } from 'react';
+// src/pages/dashboard/AdminDashboard.jsx
+import React from 'react';
+import { FaUsers, FaBook, FaUserShield, FaPlus, FaSearch } from 'react-icons/fa';
+import { MdSpaceDashboard } from 'react-icons/md';
+import dummyUsers from '../../api/dummyUsers';
+import dummyCourses from '../../api/dummyCourses';
+
+const SidebarItem = ({ icon: Icon, label }) => (
+  <div className="flex items-center gap-3 text-gray-700 hover:bg-blue-100 px-4 py-2 rounded-md cursor-pointer transition">
+    <Icon className="text-blue-600" />
+    <span className="font-medium">{label}</span>
+  </div>
+);
 
 const AdminDashboard = () => {
-  // Dummy Course Data
-  const [courses, setCourses] = useState([
-    { id: 1, title: 'React Basics', instructor: 'John', enrolled: 150 },
-    { id: 2, title: 'Cyber Security', instructor: 'Ishika', enrolled: 75 },
-  ]);
-
-  const [users, setUsers] = useState([
-    { id: 1, name: 'Ankit', email: 'ankit@gmail.com' },
-    { id: 2, name: 'Divya', email: 'divya@gmail.com' },
-  ]);
-
-  const [newCourse, setNewCourse] = useState({ title: '', instructor: '' });
-
-  // Handle adding a new course
-  const handleAddCourse = () => {
-    if (newCourse.title && newCourse.instructor) {
-      const newId = courses.length + 1;
-      setCourses([...courses, { id: newId, ...newCourse, enrolled: 0 }]);
-      setNewCourse({ title: '', instructor: '' });
-    }
-  };
-
-  // Handle delete course
-  const handleDeleteCourse = (id) => {
-    setCourses(courses.filter((c) => c.id !== id));
-  };
-
-  // Handle delete user
-  const handleDeleteUser = (id) => {
-    setUsers(users.filter((u) => u.id !== id));
-  };
-
   return (
-    <div className="min-h-screen p-6 bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4 text-blue-700">Admin Dashboard</h1>
+    <div className="min-h-screen bg-gray-100 flex">
+      {/* Sidebar */}
+      <aside className="w-72 bg-white border-r p-6">
+        <div className="mb-10">
+          <h2 className="text-xl font-bold text-blue-700 mb-2">🛠 Admin Panel</h2>
+          <div className="text-gray-500 text-sm">Admin Dashboard</div>
+        </div>
 
-      {/* COURSES SECTION */}
-      <div className="bg-white p-6 rounded shadow mb-8">
-        <h2 className="text-xl font-bold mb-4 text-gray-700">Manage Courses</h2>
+        <div className="space-y-6">
+          <div>
+            <p className="text-xs font-semibold text-gray-500 mb-2">MANAGEMENT</p>
+            <SidebarItem icon={FaUsers} label="Manage Users" />
+            <SidebarItem icon={FaBook} label="Manage Courses" />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-gray-500 mb-2">OTHER</p>
+            <SidebarItem icon={MdSpaceDashboard} label="Dashboard" />
+            <SidebarItem icon={FaUserShield} label="Admin Profile" />
+          </div>
+        </div>
+      </aside>
 
-        {/* Add New Course */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
-          <input
-            type="text"
-            placeholder="Course Title"
-            className="border px-3 py-2 rounded w-full sm:w-1/3"
-            value={newCourse.title}
-            onChange={(e) => setNewCourse({ ...newCourse, title: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Instructor"
-            className="border px-3 py-2 rounded w-full sm:w-1/3"
-            value={newCourse.instructor}
-            onChange={(e) => setNewCourse({ ...newCourse, instructor: e.target.value })}
-          />
-          <button
-            onClick={handleAddCourse}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-          >
-            Add Course
+      {/* Main Content */}
+      <main className="flex-1 p-10 overflow-y-auto">
+        {/* Header Section */}
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold text-blue-800 mb-1">👋 Welcome, Admin!</h1>
+          <p className="text-gray-600">You can manage courses and users from here.</p>
+        </div>
+
+        {/* Search & Controls */}
+        <div className="mb-6 flex flex-wrap justify-between items-center gap-4">
+          <div className="flex items-center bg-white px-4 py-2 rounded-md shadow border gap-2">
+            <FaSearch className="text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search users or courses..."
+              className="outline-none bg-transparent text-sm text-gray-700 w-60"
+            />
+          </div>
+          <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-green-600 transition">
+            <FaPlus /> Add Course
           </button>
         </div>
 
-        {/* Course Table */}
-        <table className="w-full table-auto border-t text-sm">
-          <thead>
-            <tr className="bg-blue-100 text-left">
-              <th className="p-2">#</th>
-              <th className="p-2">Title</th>
-              <th className="p-2">Instructor</th>
-              <th className="p-2">Enrolled</th>
-              <th className="p-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {courses.map((course) => (
-              <tr key={course.id} className="border-t hover:bg-gray-50">
-                <td className="p-2">{course.id}</td>
-                <td className="p-2">{course.title}</td>
-                <td className="p-2">{course.instructor}</td>
-                <td className="p-2">{course.enrolled}</td>
-                <td className="p-2">
-                  <button
-                    onClick={() => handleDeleteCourse(course.id)}
-                    className="text-red-600 hover:underline"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
+        {/* User Management */}
+        <div className="mb-10">
+          <h2 className="text-xl font-bold text-blue-700 mb-4">👥 Users</h2>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {dummyUsers.map((user) => (
+              <div key={user.id} className="bg-white p-5 rounded-lg shadow border">
+                <img
+                  src={user.avatar}
+                  alt={user.name}
+                  className="w-16 h-16 rounded-full mb-3 mx-auto"
+                />
+                <h3 className="text-lg font-semibold text-center text-gray-800">{user.name}</h3>
+                <p className="text-sm text-center text-gray-500">{user.email}</p>
+                <p className="text-sm text-center mt-1 text-blue-600">
+                  Enrolled in: <span className="font-semibold">{user.enrolled.join(', ')}</span>
+                </p>
+              </div>
             ))}
-          </tbody>
-        </table>
-      </div>
+          </div>
+        </div>
 
-      {/* USERS SECTION */}
-      <div className="bg-white p-6 rounded shadow">
-        <h2 className="text-xl font-bold mb-4 text-gray-700">Manage Users</h2>
-        <table className="w-full table-auto border-t text-sm">
-          <thead>
-            <tr className="bg-blue-100 text-left">
-              <th className="p-2">#</th>
-              <th className="p-2">Name</th>
-              <th className="p-2">Email</th>
-              <th className="p-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id} className="border-t hover:bg-gray-50">
-                <td className="p-2">{user.id}</td>
-                <td className="p-2">{user.name}</td>
-                <td className="p-2">{user.email}</td>
-                <td className="p-2">
-                  <button
-                    onClick={() => handleDeleteUser(user.id)}
-                    className="text-red-600 hover:underline"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
+        {/* Course Management */}
+        <div>
+          <h2 className="text-xl font-bold text-blue-700 mb-4">📚 Courses</h2>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {dummyCourses.map((course) => (
+              <div key={course.id} className="bg-white p-5 rounded-lg shadow border">
+                <img src={course.image} alt={course.title} className="w-full h-32 object-cover mb-3 rounded" />
+                <h3 className="text-md font-semibold text-gray-800 line-clamp-1">{course.title}</h3>
+                <p className="text-sm text-gray-500 line-clamp-2">{course.description}</p>
+                <p className="text-sm mt-2 text-green-600 font-medium">Instructor: {course.instructor}</p>
+              </div>
             ))}
-          </tbody>
-        </table>
-      </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
