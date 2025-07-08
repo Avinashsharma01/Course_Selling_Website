@@ -1,51 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import ProfileCard from "../animations/ProfileCard";
 import RotatingText from "../animations/RotatingText"; // 👈 NEW
+import { dummyCourses } from '../../api/dummyCourses';
 
-const categories = [
-  {
-    id: 1,
-    name: "Web Development",
-    handle: "web-dev",
-    desc: "Build responsive websites using React, HTML, CSS.",
-    avatar: "/images/web-dev.jpg",
-  },
-  {
-    id: 2,
-    name: "Cyber Security",
-    handle: "cyber-sec",
-    desc: "Learn ethical hacking, pen testing, and security.",
-    avatar: "/images/cyber.jpg",
-  },
-  {
-    id: 3,
-    name: "Data Science",
-    handle: "data-science",
-    desc: "Master Python, visualization & machine learning.",
-    avatar: "/images/data.jpg",
-  },
-  {
-    id: 4,
-    name: "AI & ML",
-    handle: "ai-ml",
-    desc: "Explore deep learning and real-world AI projects.",
-    avatar: "/images/ai.jpg",
-  },
-  {
-    id: 5,
-    name: "Mobile App Dev",
-    handle: "mobile-dev",
-    desc: "Create apps with Flutter & React Native.",
-    avatar: "/images/mobile.jpg",
-  },
-  {
-    id: 6,
-    name: "Ethical Hacking",
-    handle: "hacking",
-    desc: "Simulate attack vectors & secure systems.",
-    avatar: "/images/hacking.jpg",
-  },
-];
+
+const categories = Array.from(
+  new Map(
+    dummyCourses.map((course) => [
+      course.category,
+      {
+        name: course.category,
+        desc: course.description,
+        avatar: course.image,
+      },
+    ])
+  ).values()
+).slice(0, 3);
+
 
 const Categories = () => {
   const navigate = useNavigate();
