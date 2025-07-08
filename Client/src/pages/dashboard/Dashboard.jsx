@@ -1,80 +1,175 @@
 import React from 'react';
-import { FaBook, FaCertificate, FaUserCircle } from 'react-icons/fa';
-import { MdOutlineAutoGraph } from 'react-icons/md';
-import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { FaHome, FaBook, FaUser, FaLink } from 'react-icons/fa';
+import { MdSpaceDashboard } from 'react-icons/md';
+import { dummyCourses } from '../../api/dummyCourses';
+import dummyUser from '../../api/dummyUser';
+import { motion } from "framer-motion";
+
+
+const SidebarItem = ({ icon: Icon, label, to }) => (
+  <Link
+    to={to}
+    className="flex items-center gap-3 text-gray-700 hover:bg-blue-100 px-4 py-2 rounded-md cursor-pointer transition"
+  >
+    <Icon className="text-blue-600" />
+    <span className="font-medium">{label}</span>
+  </Link>
+);
 
 const Dashboard = () => {
+  const enrolledCourses = dummyCourses.slice(0, 3);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-16 px-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="mb-12 text-center">
-          <h1 className="text-4xl font-extrabold text-blue-700 mb-2">📊 Student Dashboard</h1>
-          <p className="text-gray-600 text-lg">Track your learning, achievements, and course activities here.</p>
+    <div className="min-h-screen bg-gray-100 flex">
+      {/* Sidebar */}
+      <aside className="w-72 bg-white border-r p-6">
+        <div className="mb-10">
+          <h2 className="text-xl font-bold text-blue-700 mb-2">🎓 CourseSelling</h2>
+          <div className="text-gray-500 text-sm">Student Dashboard</div>
         </div>
 
-        {/* Cards Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="space-y-6">
+          <div>
+            <p className="text-xs font-semibold text-gray-500 mb-2">GENERAL</p>
+            <SidebarItem icon={FaHome} label="Home" to="/" />
+            <SidebarItem icon={FaUser} label="My Profile" to="/dashboard" />
+            <SidebarItem icon={FaBook} label="Courses" to="/courses" />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-gray-500 mb-2">CLASS</p>
+            <SidebarItem icon={MdSpaceDashboard} label="Live Class" to="#" />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-gray-500 mb-2">LINKS</p>
+            <SidebarItem icon={FaLink} label="Resources" to="#" />
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 p-10 overflow-y-auto">
+        
+<motion.h1
+  className="text-3xl font-extrabold text-blue-800 mb-4"
+  animate={{
+    rotateX: [0, 8, -8, 0],
+    rotateY: [0, -5, 5, 0],
+    scale: [1, 1.02, 1, 1.02, 1],
+  }}
+  transition={{
+    repeat: Infinity,
+    duration: 6,
+    ease: "easeInOut",
+  }}
+>
+  👋 Welcome back, {dummyUser.name || "Student"}!
+</motion.h1>
+
+        <p className="text-gray-600 mb-10">
+          Let’s complete your profile and setup so you can start learning smoothly.
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
+          {/* Complete Setup Box */}
+          <div className="bg-white rounded-xl shadow-md p-6">
+           
+            <div className="flex justify-between items-center mb-4">
+  <h2 className="text-lg font-semibold text-gray-800">Complete Setup</h2>
+  <button
+    className="text-sm text-blue-600 hover:underline"
+    onClick={() => alert("Edit Profile clicked — Connect this to a modal or route")}
+  >
+    ✏️ Edit Profile
+  </button>
+</div>
+            <ul className="space-y-4 text-sm">
+              {/* Name */}
+              <li className="flex items-start justify-between">
+                <div>
+                  <span className="font-medium text-gray-800">✅ Name</span>
+                  <p className="text-gray-600 text-xs">
+                    {dummyUser.name ? (
+                      <>Provided: <strong>{dummyUser.name}</strong></>
+                    ) : (
+                      <>Not Provided</>
+                    )}
+                  </p>
+                </div>
+                <span className={dummyUser.name ? "text-green-500" : "text-gray-400"}>
+                  {dummyUser.name ? "✔️" : "Pending"}
+                </span>
+              </li>
+
+              {/* Email */}
+              <li className="flex items-start justify-between">
+                <div>
+                  <span className="font-medium text-gray-800">📧 Email</span>
+                  <p className="text-gray-600 text-xs">
+                    {dummyUser.email ? <>Email: <strong>{dummyUser.email}</strong></> : "Not Provided"}
+                  </p>
+                </div>
+                <span className={dummyUser.email ? "text-green-500" : "text-yellow-500"}>
+                  {dummyUser.email ? "✔️" : "Verify"}
+                </span>
+              </li>
+
+              {/* Profile Photo */}
+              <li className="flex items-start justify-between">
+                <div>
+                  <span className="font-medium text-gray-800">🖼️ Profile Photo</span>
+                  <p className="text-gray-600 text-xs">
+                    {dummyUser.profilePicture ? (
+                      <span className="flex items-center gap-2">
+                        <img
+                          src={dummyUser.profilePicture}
+                          alt="Profile"
+                          className="w-6 h-6 rounded-full object-cover"
+                        />
+                        Uploaded
+                      </span>
+                    ) : (
+                      "No photo uploaded yet."
+                    )}
+                  </p>
+                </div>
+                <span className={dummyUser.profilePicture ? "text-green-500" : "text-gray-400"}>
+                  {dummyUser.profilePicture ? "✔️" : "Pending"}
+                </span>
+              </li>
+
+              {/* Goal */}
+              <li className="flex items-start justify-between">
+                <div>
+                  <span className="font-medium text-gray-800">🎯 Learning Interests</span>
+                  <p className="text-gray-600 text-xs">
+                    {dummyUser.interests && dummyUser.interests.length > 0 ? (
+                      dummyUser.interests.join(", ")
+                    ) : (
+                      "Not Provided"
+                    )}
+                  </p>
+                </div>
+                <span className={dummyUser.interests && dummyUser.interests.length > 0 ? "text-green-500" : "text-gray-400"}>
+                  {dummyUser.interests && dummyUser.interests.length > 0 ? "✔️" : "Pending"}
+                </span>
+              </li>
+            </ul>
+          </div>
+
           {/* Enrolled Courses */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white shadow-lg rounded-xl p-6 border-l-4 border-green-500"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <FaBook size={30} className="text-green-600" />
-              <h2 className="text-xl font-semibold text-gray-800">Enrolled Courses</h2>
-            </div>
-            <p className="text-gray-600">You're enrolled in <span className="font-bold text-green-700">4 courses</span>.</p>
-          </motion.div>
-
-          {/* Progress */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white shadow-lg rounded-xl p-6 border-l-4 border-blue-500"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <MdOutlineAutoGraph size={30} className="text-blue-600" />
-              <h2 className="text-xl font-semibold text-gray-800">Progress</h2>
-            </div>
-            <p className="text-gray-600">📘 2 in progress, ✅ 1 completed, ⏳ 1 not started</p>
-            <div className="mt-3">
-              <div className="w-full bg-gray-200 rounded-full h-3">
-                <div
-                  className="bg-blue-500 h-3 rounded-full transition-all"
-                  style={{ width: '60%' }}
-                ></div>
-              </div>
-              <p className="text-sm text-gray-500 mt-1">60% overall completion</p>
-            </div>
-          </motion.div>
-
-          {/* Certificates */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white shadow-lg rounded-xl p-6 border-l-4 border-yellow-400"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <FaCertificate size={28} className="text-yellow-500" />
-              <h2 className="text-xl font-semibold text-gray-800">Certificates</h2>
-            </div>
-            <p className="text-gray-600">🏅 You've earned <span className="font-bold text-yellow-600">2 certificates</span>.</p>
-            <p className="text-sm text-gray-500 mt-1">Download from course page</p>
-          </motion.div>
-
-          {/* Account Info */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white shadow-lg rounded-xl p-6 border-l-4 border-purple-500"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <FaUserCircle size={30} className="text-purple-600" />
-              <h2 className="text-xl font-semibold text-gray-800">Account Info</h2>
-            </div>
-            <p className="text-gray-600">Email: <strong className="text-purple-700">student@learnhub.com</strong></p>
-            <p className="text-gray-600">Plan: <strong className="text-purple-700">Premium</strong></p>
-          </motion.div>
+          <div className="bg-white rounded-xl shadow-md p-6">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">📚 Enrolled Courses</h2>
+            <ul className="list-disc list-inside text-sm text-gray-700 space-y-2">
+              {enrolledCourses.map((course) => (
+                <li key={course.id}>
+                  <strong>{course.title}</strong> — by {course.instructor}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
