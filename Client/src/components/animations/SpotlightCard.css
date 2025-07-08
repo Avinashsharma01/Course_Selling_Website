@@ -1,0 +1,12 @@
+.spotlight-card {
+  perspective: 1000px;
+}
+
+.spotlight-glow {
+  transition: all 0.3s ease;
+}
+
+.spotlight-card:hover .spotlight-glow {
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.5),
+              0 0 40px rgba(0, 229, 255, 0.3);
+}

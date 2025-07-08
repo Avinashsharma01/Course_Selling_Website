@@ -1,31 +1,34 @@
 import { motion } from 'framer-motion';
+import BlurText from '../../components/animations/BlurText'; // ✅ adjust path if needed
 
 const features = [
   {
     title: 'Certified Instructors',
     icon: '🎓',
-    desc: 'Learn from world-class educators & working professionals.',
+    desc: 'Learn from globally recognized educators and active industry professionals. Each instructor is vetted for teaching excellence, domain expertise, and real-world experience — ensuring every lesson is practical, insightful, and career-relevant.',
     more: 'Instructors come from top institutions like Google, Microsoft, and IITs — teaching with hands-on projects and industry-relevant case studies.',
   },
   {
     title: 'Flexible Learning',
     icon: '🕒',
-    desc: 'Study anytime, anywhere, on your own terms.',
+    desc: 'Study on your schedule — whether it’s early mornings, late nights, or weekends. Our platform works seamlessly across devices, with downloadable content and self-paced lessons designed to fit around your lifestyle and commitments.',
     more: 'Watch anytime with lifetime access. Courses are mobile-friendly, downloadable, and structured into bite-sized lessons.',
   },
   {
     title: 'Affordable Pricing',
     icon: '💰',
-    desc: 'Education that fits your pocket without compromising quality.',
+    desc: 'Get premium-quality courses without breaking the bank. One-time purchase gives lifetime access, and we regularly offer discounts, bundles, and EMI options — making world-class education accessible to all learners.',
     more: 'Flat pricing. No monthly subscriptions. Bundle deals. EMI options. All content unlocked forever after purchase.',
   },
   {
     title: 'Career Support',
     icon: '🚀',
-    desc: 'Go beyond learning — land your dream job.',
+    desc: 'Learning is just the beginning — we help you launch your career. From expert-reviewed resumes to mock interviews and networking with mentors, our career support is tailored to help you land your dream job faster.',
     more: 'We guide you through resume building, LinkedIn optimization, mock interviews, and referrals from industry mentors.',
   },
 ];
+
+
 
 const imageURL =
   'https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg';
@@ -34,9 +37,16 @@ const WhyChooseUs = () => {
   return (
     <section className="min-h-screen bg-gradient-to-br from-blue-50 to-green-100 py-24 px-6">
       <div className="max-w-7xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-blue-900 mb-4">
-          💡 Why Choose <span className="text-green-600">CourseSelling</span>?
-        </h2>
+        <div className="flex justify-center">
+          <BlurText
+            text="💡 Why Choose CourseSelling?"
+            delay={120}
+            animateBy="words"
+            direction="top"
+            className="text-4xl md:text-5xl font-extrabold text-blue-900 mb-4 text-center"
+          />
+        </div>
+
         <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-14">
           We’re not just another platform. We’re your lifelong growth partner — from learning to earning.
         </p>
