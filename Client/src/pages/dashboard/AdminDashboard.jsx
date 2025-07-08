@@ -1,7 +1,7 @@
 // src/pages/dashboard/AdminDashboard.jsx
 import React, { useState } from 'react';
 import {
-  FaUsers, FaBook, FaUserShield, FaPlus, FaSearch
+  FaUsers, FaBook, FaUserShield, FaPlus, FaSearch, FaEdit, FaTrash
 } from 'react-icons/fa';
 import { MdSpaceDashboard } from 'react-icons/md';
 import { dummyUsers } from '../../api/dummyUsers';
@@ -18,10 +18,9 @@ const ITEMS_PER_PAGE = 6;
 
 const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [tab, setTab] = useState('users'); // 'users' | 'courses'
+  const [tab, setTab] = useState('users');
   const [page, setPage] = useState(1);
 
-  // Filtered data
   const filteredUsers = dummyUsers.filter(
     (user) =>
       user.name.toLowerCase().includes(searchQuery) ||
@@ -42,6 +41,7 @@ const AdminDashboard = () => {
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE
   );
+
   const paginatedCourses = filteredCourses.slice(
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE
@@ -58,6 +58,14 @@ const AdminDashboard = () => {
         ? Math.min(prev + 1, totalPages)
         : Math.max(prev - 1, 1)
     );
+  };
+
+  const handleEdit = (type, id) => {
+    console.log(`Edit ${type} with id: ${id}`);
+  };
+
+  const handleDelete = (type, id) => {
+    console.log(`Delete ${type} with id: ${id}`);
   };
 
   return (
@@ -137,13 +145,13 @@ const AdminDashboard = () => {
           )}
         </div>
 
-        {/* Main Grid Section */}
+        {/* Main Grid */}
         {tab === 'users' ? (
           <section>
             <h2 className="text-xl font-bold text-blue-700 mb-4">👥 Users</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
               {paginatedUsers.map((user) => (
-                <div key={user.id} className="bg-white p-5 rounded-lg shadow border">
+                <div key={user.id} className="bg-white p-5 rounded-lg shadow border relative">
                   <img
                     src={user.avatar}
                     alt={user.name}
@@ -152,11 +160,24 @@ const AdminDashboard = () => {
                   <h3 className="text-lg font-semibold text-center text-gray-800">{user.name}</h3>
                   <p className="text-sm text-center text-gray-500">{user.email}</p>
                   <p className="text-sm text-center mt-1 text-blue-600">
-                    Enrolled in:{' '}
-                    <span className="font-semibold">
+                    Enrolled: <span className="font-semibold">
                       {user.enrolledCourses?.join(', ') || 'None'}
                     </span>
                   </p>
+                  <div className="flex justify-center gap-4 mt-4">
+                    <button
+                      onClick={() => handleEdit('user', user.id)}
+                      className="text-sm text-blue-600 hover:underline flex items-center gap-1"
+                    >
+                      <FaEdit /> Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete('user', user.id)}
+                      className="text-sm text-red-600 hover:underline flex items-center gap-1"
+                    >
+                      <FaTrash /> Delete
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -166,7 +187,7 @@ const AdminDashboard = () => {
             <h2 className="text-xl font-bold text-blue-700 mb-4">📚 Courses</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
               {paginatedCourses.map((course) => (
-                <div key={course.id} className="bg-white p-5 rounded-lg shadow border">
+                <div key={course.id} className="bg-white p-5 rounded-lg shadow border relative">
                   <img
                     src={course.image}
                     alt={course.title}
@@ -181,6 +202,20 @@ const AdminDashboard = () => {
                   <p className="text-sm mt-2 text-green-600 font-medium">
                     Instructor: {course.instructor}
                   </p>
+                  <div className="flex justify-between mt-4">
+                    <button
+                      onClick={() => handleEdit('course', course.id)}
+                      className="text-sm text-blue-600 hover:underline flex items-center gap-1"
+                    >
+                      <FaEdit /> Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete('course', course.id)}
+                      className="text-sm text-red-600 hover:underline flex items-center gap-1"
+                    >
+                      <FaTrash /> Delete
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
