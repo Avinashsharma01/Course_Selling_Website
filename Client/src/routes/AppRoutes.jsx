@@ -7,6 +7,8 @@ import CourseDetail from '../pages/courses/CourseDetail';
 import Dashboard from '../pages/dashboard/Dashboard';
 import AdminDashboard from '../pages/dashboard/AdminDashboard';
 import AnimatedCourses from '../pages/courses/AnimatedCourses';
+import PrivacyPolicy from '../pages/privacyPolicy/privacy-Policy';
+import About from '../pages/about/AboutUs';
 
 import Contact from '../pages/contact/Contact';
 import Login from '../pages/auth/Login';
@@ -28,6 +30,8 @@ const AppRoutes = () => {
           <Route path="animated-courses" element={<AnimatedCourses />} />
           <Route path="admin/dashboard" element={<AdminDashboard />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="about" element={<About />} />
         </Route>
 
         <Route path="/login" element={<Login />} />
