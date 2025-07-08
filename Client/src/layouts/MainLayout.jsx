@@ -10,6 +10,7 @@ const MainLayout = () => {
     <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900">
       {/* Show Navbar only on home */}
       {isHomePage && <Navbar />}
+      
 
       {/* Page Content */}
       <main className="flex-grow px-4 py-6">

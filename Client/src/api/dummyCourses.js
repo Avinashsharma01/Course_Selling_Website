@@ -1,60 +1,90 @@
 // src/api/dummyCourses.js
 
+const imageURL = 'https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg';
+
 export const dummyCourses = [
   {
     id: 1,
     title: "Full Stack Web Development",
-    description: "Learn to build modern web applications using React, Node.js, and MongoDB.",
+    description: "Build responsive, dynamic websites using HTML, CSS, JS, React, Node.js, and MongoDB.",
+    instructor: "Ishita Sharma",
     price: 1499,
-    image: "https://source.unsplash.com/400x250/?coding,webdev",
-    category: "Web Development"
+    rating: 4.7,
+    duration: "12 Weeks",
+    level: "Intermediate",
+    image: imageURL,
+    category: "Web Development",
   },
   {
     id: 2,
     title: "Cyber Security Fundamentals",
-    description: "Explore ethical hacking, network security, and cyber laws.",
+    description: "Explore ethical hacking, network security, encryption, and Indian cyber laws.",
+    instructor: "Ravi Menon",
     price: 999,
-    image: "https://source.unsplash.com/400x250/?cybersecurity,hacking",
-    category: "Cyber Security"
+    rating: 4.5,
+    duration: "8 Weeks",
+    level: "Beginner",
+    image: imageURL,
+    category: "Cyber Security",
   },
   {
     id: 3,
     title: "Data Science with Python",
-    description: "Analyze data and build machine learning models with Python.",
+    description: "Learn data analysis, visualization, and machine learning using Python, NumPy, and pandas.",
+    instructor: "Dr. Meera Kapoor",
     price: 1299,
-    image: "https://source.unsplash.com/400x250/?data,python",
-    category: "Data Science"
+    rating: 4.8,
+    duration: "10 Weeks",
+    level: "Intermediate",
+    image: imageURL,
+    category: "Data Science",
   },
   {
     id: 4,
     title: "Digital Marketing Essentials",
-    description: "Master SEO, SEM, and social media strategies for marketing.",
+    description: "Master SEO, Google Ads, social media marketing, and brand positioning strategies.",
+    instructor: "Kunal Rajput",
     price: 899,
-    image: "https://source.unsplash.com/400x250/?digitalmarketing,seo",
-    category: "Marketing"
+    rating: 4.4,
+    duration: "6 Weeks",
+    level: "Beginner",
+    image: imageURL,
+    category: "Marketing",
   },
   {
     id: 5,
     title: "UI/UX Design Bootcamp",
-    description: "Design user interfaces and experiences with Figma and Adobe XD.",
+    description: "Learn wireframing, prototyping, and design systems with Figma and Adobe XD.",
+    instructor: "Ananya Desai",
     price: 1099,
-    image: "https://source.unsplash.com/400x250/?uiux,design",
-    category: "Design"
+    rating: 4.6,
+    duration: "7 Weeks",
+    level: "All Levels",
+    image: imageURL,
+    category: "Design",
   },
   {
     id: 6,
     title: "Mobile App Development",
-    description: "Create native and cross-platform mobile apps using Flutter.",
+    description: "Build native and cross-platform mobile apps using Flutter and Dart.",
+    instructor: "Rajesh Patel",
     price: 1399,
-    image: "https://source.unsplash.com/400x250/?mobileapp,flutter",
-    category: "Mobile Development"
+    rating: 4.7,
+    duration: "9 Weeks",
+    level: "Intermediate",
+    image: imageURL,
+    category: "Mobile Development",
   },
   {
     id: 7,
     title: "MERN Stack Projects",
-    description: "Build full-stack real-world apps using MongoDB, Express, React, and Node.",
+    description: "Hands-on full-stack projects with MongoDB, Express, React, and Node.js.",
+    instructor: "Sanya Gupta",
     price: 1599,
-    image: "https://source.unsplash.com/400x250/?mernstack,web",
-    category: "Full Stack"
+    rating: 4.9,
+    duration: "6 Weeks",
+    level: "Advanced",
+    image: imageURL,
+    category: "Full Stack",
   }
 ];
