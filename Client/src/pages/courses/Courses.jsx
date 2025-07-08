@@ -1,64 +1,45 @@
 import { useState } from "react";
 import { dummyCourses } from "../../api/dummyCourses";
 import CourseCard from "../../components/course/CourseCard";
-import CardSwap, { Card } from "../../components/animations/CardSwap";
-import BlurText from "../../components/animations/BlurText";
+import CategoryFilter from "../../components/course/CategoryFilter";
 
 const Courses = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const activeCourse = dummyCourses[activeIndex];
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const handleFrontCardChange = (index) => {
-    setActiveIndex(index);
-  };
+  const categories = Array.from(
+    new Set(dummyCourses.map((c) => c.category))
+  );
+
+  const filteredCourses =
+    selectedCategory === "All"
+      ? dummyCourses
+      : dummyCourses.filter((c) => c.category === selectedCategory);
 
   return (
-    <div className="relative min-h-screen pt-24 pb-20 px-4 md:px-16 overflow-hidden">
-      {/* Dynamic Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out z-0"
-        style={{
-          backgroundImage: `url(${activeCourse.image})`,
-          filter: "blur(8px) brightness(0.85)",
-          transform: "scale(1.05)",
-        }}
-      />
+    <div className="min-h-screen pt-24 px-4 md:px-16 pb-20">
+      {/* Heading */}
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold text-black mb-2">All Courses</h1>
+        <p className="text-gray-600">
+          Explore different courses to build your skills and boost your career.
+        </p>
+      </div>
 
-      {/* Content */}
-      <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
-        <div className="space-y-3">
-          <BlurText
-            text="All Courses"
-            delay={150}
-            animateBy="words"
-            direction="top"
-            className="text-4xl font-bold text-black"
-          />
-          <BlurText
-            text="Explore different courses to build your skills and boost your career."
-            delay={50}
-            animateBy="words"
-            direction="top"
-            className="text-gray-600"
+      <div className="grid md:grid-cols-5 gap-8">
+        {/* Sidebar filter */}
+        <div className="md:col-span-1">
+          <CategoryFilter
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onSelect={setSelectedCategory}
           />
         </div>
 
-        <div className="flex justify-center md:justify-end">
-          <CardSwap
-            width={340}
-            height={270}
-            cardDistance={55}
-            verticalDistance={45}
-            delay={5000}
-            pauseOnHover={true}
-            onFrontCardChange={handleFrontCardChange}
-          >
-            {dummyCourses.map((course) => (
-              <Card key={course.id}>
-                <CourseCard course={course} />
-              </Card>
-            ))}
-          </CardSwap>
+        {/* Course Grid */}
+        <div className="md:col-span-4 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filteredCourses.map((course) => (
+            <CourseCard key={course.id} course={course} />
+          ))}
         </div>
       </div>
     </div>

@@ -98,5 +98,158 @@ export const dummyCourses = [
     duration: 10,
     level: "Advanced",
     topics: ["Supervised Learning", "Unsupervised Learning", "Scikit-learn", "Model Evaluation", "Neural Networks", "Projects"]
-  }
+  },
+  {
+  id: 9,
+  title: "Web Development Advanced Concepts",
+  description: "Build advanced applications using React, Express, and MongoDB.",
+  price: 1499,
+  image: "https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg",
+  category: "Web Development",
+  instructor: "Instructor Web",
+  duration: 10,
+  level: "Advanced",
+  topics: [
+    "Web Development Topic 1",
+    "Web Development Topic 2",
+    "Web Development Topic 3",
+    "Web Development Topic 4",
+    "Web Development Topic 5",
+    "Web Development Topic 6"
+  ]
+},
+{
+  id: 10,
+  title: "Data Science Advanced Concepts",
+  description: "Apply data wrangling, visualization, and ML techniques with real datasets.",
+  price: 1499,
+  image: "https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg",
+  category: "Data Science",
+  instructor: "Instructor Dat",
+  duration: 10,
+  level: "Advanced",
+  topics: [
+    "Data Science Topic 1",
+    "Data Science Topic 2",
+    "Data Science Topic 3",
+    "Data Science Topic 4",
+    "Data Science Topic 5",
+    "Data Science Topic 6"
+  ]
+},
+{
+  id: 11,
+  title: "Design Advanced Concepts",
+  description: "Explore design systems, typography, and user-centered design principles.",
+  price: 1499,
+  image: "https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg",
+  category: "Design",
+  instructor: "Instructor Des",
+  duration: 10,
+  level: "Advanced",
+  topics: [
+    "Design Topic 1",
+    "Design Topic 2",
+    "Design Topic 3",
+    "Design Topic 4",
+    "Design Topic 5",
+    "Design Topic 6"
+  ]
+},
+{
+  id: 12,
+  title: "Mobile Development Advanced Concepts",
+  description: "Create cross-platform apps using Flutter and Dart.",
+  price: 1499,
+  image: "https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg",
+  category: "Mobile Development",
+  instructor: "Instructor Mob",
+  duration: 10,
+  level: "Advanced",
+  topics: [
+    "Mobile Development Topic 1",
+    "Mobile Development Topic 2",
+    "Mobile Development Topic 3",
+    "Mobile Development Topic 4",
+    "Mobile Development Topic 5",
+    "Mobile Development Topic 6"
+  ]
+},
+{
+  id: 13,
+  title: "Marketing Advanced Concepts",
+  description: "Deep dive into paid ads, influencer marketing, and campaign strategy.",
+  price: 1499,
+  image: "https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg",
+  category: "Marketing",
+  instructor: "Instructor Mar",
+  duration: 10,
+  level: "Advanced",
+  topics: [
+    "Marketing Topic 1",
+    "Marketing Topic 2",
+    "Marketing Topic 3",
+    "Marketing Topic 4",
+    "Marketing Topic 5",
+    "Marketing Topic 6"
+  ]
+},
+{
+  id: 14,
+  title: "Cloud Computing Advanced Concepts",
+  description: "Design scalable systems with GCP and Azure alongside AWS.",
+  price: 1499,
+  image: "https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg",
+  category: "Cloud Computing",
+  instructor: "Instructor Clo",
+  duration: 10,
+  level: "Advanced",
+  topics: [
+    "Cloud Computing Topic 1",
+    "Cloud Computing Topic 2",
+    "Cloud Computing Topic 3",
+    "Cloud Computing Topic 4",
+    "Cloud Computing Topic 5",
+    "Cloud Computing Topic 6"
+  ]
+},
+{
+  id: 15,
+  title: "Security Advanced Concepts",
+  description: "Master penetration testing, network forensics, and security compliance.",
+  price: 1499,
+  image: "https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg",
+  category: "Security",
+  instructor: "Instructor Sec",
+  duration: 10,
+  level: "Advanced",
+  topics: [
+    "Security Topic 1",
+    "Security Topic 2",
+    "Security Topic 3",
+    "Security Topic 4",
+    "Security Topic 5",
+    "Security Topic 6"
+  ]
+},
+{
+  id: 16,
+  title: "Artificial Intelligence Advanced Concepts",
+  description: "Explore deep learning, NLP, and AI ethics.",
+  price: 1499,
+  image: "https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg",
+  category: "Artificial Intelligence",
+  instructor: "Instructor Art",
+  duration: 10,
+  level: "Advanced",
+  topics: [
+    "Artificial Intelligence Topic 1",
+    "Artificial Intelligence Topic 2",
+    "Artificial Intelligence Topic 3",
+    "Artificial Intelligence Topic 4",
+    "Artificial Intelligence Topic 5",
+    "Artificial Intelligence Topic 6"
+  ]
+}
+
 ];
