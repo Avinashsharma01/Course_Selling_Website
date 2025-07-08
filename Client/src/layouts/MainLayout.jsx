@@ -8,8 +8,10 @@ const MainLayout = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900">
-      {/* Show Navbar only on home */}
-      {isHomePage && <Navbar />}
+      {/* Show Navbar only on home,course detail, courses */}
+      {isHomePage || location.pathname.startsWith('/courses') ? <Navbar /> : null}
+
+   
       
 
       {/* Page Content */}
