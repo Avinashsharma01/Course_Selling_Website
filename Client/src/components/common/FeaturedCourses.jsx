@@ -6,16 +6,30 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 
 import { dummyCourses } from '../../api/dummyCourses';
+import TrueFocus from '../effects/TrueFocus'; // ✅ Import the effect
 
 const FeaturedCourses = () => {
   return (
     <section className="pt-32 pb-16 bg-gradient-to-b from-white to-blue-50">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-blue-700 text-center mb-4">🔥 Featured Courses</h2>
+        
+        {/* ✅ Animated Heading */}
+        <div className="mb-4 flex justify-center">
+          <TrueFocus
+            sentence=" Featured Courses"
+            blurAmount={5}
+            borderColor="blue"
+            glowColor="rgba(37, 99, 235, 0.6)" // Tailwind blue-600
+            animationDuration={1}
+            pauseBetweenAnimations={1}
+          />
+        </div>
+
         <p className="text-gray-600 text-center mb-10">
           Learn industry‑ready skills with our top‑rated programs
         </p>
 
+        {/* ✅ Auto-Scrolling Carousel */}
         <Swiper
           modules={[Autoplay, FreeMode]}
           loop={true}
@@ -56,6 +70,7 @@ const FeaturedCourses = () => {
           ))}
         </Swiper>
 
+        {/* ✅ Button to view all */}
         <div className="text-center mt-10">
           <Link to="/courses">
             <button className="bg-blue-600 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition">
