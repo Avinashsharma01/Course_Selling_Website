@@ -14,7 +14,7 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* 🔗 Navigation */}
+       
         <div>
           <h4 className="text-lg font-semibold mb-3 text-green-200">Quick Links</h4>
           <ul className="space-y-2 text-sm">
@@ -23,10 +23,9 @@ const Footer = () => {
             <li><Link to="/contact" className="hover:text-green-300 transition">Contact</Link></li>
             <li><Link to="/login" className="hover:text-green-300 transition">Login</Link></li>
             <li><Link to="/register" className="hover:text-green-300 transition">Register</Link></li>
+            <li><Link to="/privacy-policy" className="hover:text-green-300 transition">Privacy Policy</Link></li>
           </ul>
         </div>
-
-        {/* 📞 Contact Info */}
         <div>
           <h4 className="text-lg font-semibold mb-3 text-green-200">Contact Us</h4>
           <ul className="space-y-3 text-sm">

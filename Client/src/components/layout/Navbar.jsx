@@ -70,8 +70,8 @@ const Navbar = () => {
 
         {/* Right: Links & Auth */}
         <div className="flex flex-row items-center gap-5 text-sm font-semibold text-white relative">
-          <Link to="/courses" className="hover:text-yellow-300 transition">
-            Courses
+          <Link to="/about" className="hover:text-yellow-300 transition">
+            About
           </Link>
           <Link to="/contact" className="hover:text-yellow-300 transition">
             Contact
