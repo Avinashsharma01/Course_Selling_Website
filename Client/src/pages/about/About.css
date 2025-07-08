@@ -1,4 +1,4 @@
-About.css                                          .about-container {
+.about-container {
   font-family: 'Segoe UI', sans-serif;
   padding: 2rem;
   max-width: 1100px;
@@ -19,20 +19,26 @@ About.css                                          .about-container {
 .hero p {
   font-size: 1.2rem;
   color: #7f8c8d;
+  margin-top: 0.5rem;
 }
 
-.mission, .team, .why-us {
+/* Shared section styling */
+.section-center {
+  text-align: center;
   margin-bottom: 3rem;
 }
 
-.mission p{
-  margin-left: 110px;
-}
-h2 {
+.section-center h2 {
   color: #1abc9c;
+  font-size: 2rem;
   margin-bottom: 1rem;
-  font-size: 34px;
-  margin-left: 88px;
+}
+
+.section-center p {
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin: auto;
+  color: #34495e;
 }
 
 .team-grid {
@@ -40,6 +46,7 @@ h2 {
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
+  margin-top: 2rem;
 }
 
 .team-member {
@@ -50,10 +57,12 @@ h2 {
 .team-member img {
   width: 100%;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
-.team-member img:hover{
-  margin-top:10px;
+
+.team-member img:hover {
+  transform: translateY(-8px);
 }
 
 .team-member h3 {
@@ -61,13 +70,13 @@ h2 {
   font-size: 1.1rem;
 }
 
-ul {
+.why-us ul {
   list-style: none;
   padding-left: 0;
+  margin-top: 1.5rem;
 }
 
-ul li {
-  margin-bottom: 0.5rem;
+.why-us li {
   font-size: 1.1rem;
-  margin-left: 110px;
+  margin-bottom: 0.8rem;
 }
