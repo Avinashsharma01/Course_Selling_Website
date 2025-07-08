@@ -24,7 +24,7 @@ export const dummyCourses = [
     rating: 4.5,
     duration: "8 Weeks",
     level: "Beginner",
-    image: imageURL,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnKAoWYCN06QFU7vD1_xpLgRhpn-BLGzSVUg&s",
     category: "Cyber Security",
   },
   {

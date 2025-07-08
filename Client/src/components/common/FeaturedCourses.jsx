@@ -6,16 +6,21 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 
 import { dummyCourses } from '../../api/dummyCourses';
+import TrueFocus from '../animations/TrueFocus';
 
 const FeaturedCourses = () => {
   return (
     <section className="min-h-screen bg-gradient-to-b from-white to-blue-50 flex items-center pt-32 pb-20">
       <div className="max-w-7xl mx-auto px-4 w-full">
         <div className="text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-blue-800 mb-3 tracking-tight">
-            🚀 Featured Courses
-          </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <TrueFocus
+            sentence=" Featured Courses"
+            blurAmount={5}
+            borderColor="blue"
+            animationDuration={0.5}
+            pauseBetweenAnimations={1}
+          />
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto mt-4">
             Level up your career with our best-rated programs, handpicked for you.
           </p>
         </div>

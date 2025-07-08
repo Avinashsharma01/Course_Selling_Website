@@ -1,4 +1,13 @@
-import { Children, cloneElement, forwardRef, isValidElement, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Children,
+  cloneElement,
+  forwardRef,
+  isValidElement,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import gsap from "gsap";
 
 export const Card = forwardRef(({ customClass, ...rest }, ref) => (
@@ -25,12 +34,19 @@ const CardSwap = ({
   verticalDistance = 90,
   delay = 3000,
   pauseOnHover = true,
+  onFrontCardChange = () => {},
 }) => {
   const [paused, setPaused] = useState(false);
   const cardRefs = useRef([]);
   const total = Children.count(children);
 
-  const slots = useMemo(() => Array.from({ length: total }, (_, i) => makeSlot(i, cardDistance, verticalDistance, total)), [total]);
+  const slots = useMemo(
+    () =>
+      Array.from({ length: total }, (_, i) =>
+        makeSlot(i, cardDistance, verticalDistance, total)
+      ),
+    [total, cardDistance, verticalDistance]
+  );
 
   // initialize card positions
   useEffect(() => {
@@ -45,9 +61,10 @@ const CardSwap = ({
         scale: 1 - i * 0.04,
       });
     });
-  }, [slots]);
 
-  // autoplay
+    onFrontCardChange?.(0); // default front card on mount
+  }, [slots, onFrontCardChange]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (!paused) handleNext();
@@ -59,12 +76,16 @@ const CardSwap = ({
     const first = cardRefs.current.shift();
     cardRefs.current.push(first);
     updatePositions();
+    onFrontCardChange((prev) => (prev + 1) % total);
   };
 
   const handlePrev = () => {
     const last = cardRefs.current.pop();
     cardRefs.current.unshift(last);
     updatePositions();
+    onFrontCardChange((prev) =>
+      prev - 1 < 0 ? total - 1 : (prev - 1) % total
+    );
   };
 
   const updatePositions = () => {
@@ -96,8 +117,18 @@ const CardSwap = ({
 
       {/* Manual Controls */}
       <div className="absolute bottom-[-330px] left-[-25%] -translate-x-1/2 flex gap-4 z-50">
-        <button onClick={handlePrev} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Prev</button>
-        <button onClick={handleNext} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Next</button>
+        <button
+          onClick={handlePrev}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+        >
+          Prev
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+        >
+          Next
+        </button>
       </div>
     </div>
   );
