@@ -75,6 +75,12 @@ const AboutUs = () => {
     
     'https://cdn.pixabay.com/photo/2019/12/29/19/40/online-4727942_1280.jpg',
     'https://cdn.pixabay.com/photo/2022/01/28/12/17/distance-learning-6974511_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/07/17/22/42/startup-849804_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/01/08/18/24/children-593313_1280.jpg',
+    'https://cdn.pixabay.com/photo/2017/02/07/13/46/target-2045924_1280.jpg',
+    'https://cdn.pixabay.com/photo/2021/08/04/13/06/software-developer-6521720_1280.jpg',
+    'https://cdn.pixabay.com/photo/2017/04/23/19/30/earth-2254769_1280.jpg',
+    'https://cdn.pixabay.com/photo/2022/12/03/23/00/cyber-brain-7633488_1280.jpg',
   
   ]}
 />
