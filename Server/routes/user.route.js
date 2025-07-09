@@ -1,6 +1,8 @@
 // routes/user.route.js
 
 import express from 'express';
+
+
 import {
   registerUser,
   loginUser,
@@ -23,12 +25,14 @@ const router = express.Router();
  */
 router.post('/register', registerValidation, registerUser);
 
+
 /**
  * @route   POST /api/user/login
  * @desc    Login user and return token
  * @access  Public
  */
 router.post('/login', loginValidation, loginUser);
+
 
 /**
  * @route   GET /api/user/profile
