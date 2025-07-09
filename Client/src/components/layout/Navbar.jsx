@@ -246,7 +246,7 @@ const Navbar = () => {
                                     : "text-white hover:text-blue-200"
                             }`}
                         >
-                            Admin Dashboard
+                            Dashboard
                         </Link>
                     </div>
 
