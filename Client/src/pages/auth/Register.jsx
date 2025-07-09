@@ -1,4 +1,5 @@
-import registerImage from "../../assets/react.svg";
+import registerImage from "../../assets/5191079.jpg";
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
@@ -77,10 +78,14 @@ const Register = () => {
     return (
         <div className="min-h-[80vh] flex items-center justify-center p-4">
             <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
-                {/* Left Side */}
-                <div className="hidden md:flex items-center justify-center bg-blue-100">
-                    <img src={registerImage} alt="Register" className="w-3/4" />
-                </div>
+                <div className="hidden md:flex items-center justify-center bg-blue-100 p-4">
+  <img
+    src={registerImage}
+    alt="Register"
+    className="h-[100%] w-full object-contain"
+  />
+</div>
+
 
                 {/* Right Side */}
                 <div className="p-8 sm:p-12">

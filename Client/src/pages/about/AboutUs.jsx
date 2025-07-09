@@ -1,6 +1,6 @@
 import React from 'react';
 import './About.css';
-import teamImage from '../../assets/Screenshot.png.jpg';
+import teamImage from '../../assets/S3.jpg';
 import TrueFocus from '../../components/animations/TrueFocus';
 import Stack from '../../components/animations/Stack';
 

@@ -1,4 +1,4 @@
-import registerImage from "../../assets/react.svg";
+import registerImage from "../../assets/5191079.jpg";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";

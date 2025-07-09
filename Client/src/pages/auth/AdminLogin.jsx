@@ -1,4 +1,4 @@
-import loginImage from "../../assets/react.svg";
+import loginImage from "../../assets/3d-mobile-phone-with-security-code-padlock.jpg";
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
