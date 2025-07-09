@@ -5,12 +5,14 @@ import {
   registerUser,
   loginUser,
   getUserProfile,
-  updateUserByAdmin,
-  deleteUserByAdmin
+  updateUserProfile,
+  getAllUsers,
+  deleteUser
 } from '../controllers/user.controller.js';
 
 import authMiddleware from '../middleware/auth.js';
-import adminMiddleware from '../middleware/admin.js'; // ✅ added admin middleware
+import adminMiddleware from '../middleware/admin.js';
+import { registerValidation, loginValidation } from '../middleware/validateInput.js';
 
 const router = express.Router();
 
@@ -19,14 +21,14 @@ const router = express.Router();
  * @desc    Register a new user
  * @access  Public
  */
-router.post('/register', registerUser);
+router.post('/register', registerValidation, registerUser);
 
 /**
  * @route   POST /api/user/login
  * @desc    Login user and return token
  * @access  Public
  */
-router.post('/login', loginUser);
+router.post('/login', loginValidation, loginUser);
 
 /**
  * @route   GET /api/user/profile
@@ -36,17 +38,24 @@ router.post('/login', loginUser);
 router.get('/profile', authMiddleware, getUserProfile);
 
 /**
- * @route   PUT /api/user/admin/:id
- * @desc    Update any user by admin
- * @access  Private (Admin only)
+ * @route   PUT /api/user/profile
+ * @desc    Update user profile
+ * @access  Private
  */
-router.put('/admin/:id', authMiddleware, adminMiddleware, updateUserByAdmin);
+router.put('/profile', authMiddleware, updateUserProfile);
 
 /**
- * @route   DELETE /api/user/admin/:id
- * @desc    Delete any user by admin
+ * @route   GET /api/user/all
+ * @desc    Get all users (admin only)
  * @access  Private (Admin only)
  */
-router.delete('/admin/:id', authMiddleware, adminMiddleware, deleteUserByAdmin);
+router.get('/all', authMiddleware, adminMiddleware, getAllUsers);
+
+/**
+ * @route   DELETE /api/user/:id
+ * @desc    Delete a user (admin only)
+ * @access  Private (Admin only)
+ */
+router.delete('/:id', authMiddleware, adminMiddleware, deleteUser);
 
 export default router;

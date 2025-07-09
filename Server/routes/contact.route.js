@@ -1,8 +1,10 @@
-import express from "express"
-import handleContact from "../controllers/contact.controller.js"
-const router = express.Router()
+import express from "express";
+import handleContact from "../controllers/contact.controller.js";
+import { contactValidation } from '../middleware/validateInput.js';
 
-router.post('/contact', handleContact)
+const router = express.Router();
 
-export default router
+router.post('/contact', contactValidation, handleContact);
+
+export default router;
 
