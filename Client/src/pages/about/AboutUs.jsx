@@ -2,6 +2,7 @@ import React from 'react';
 import teamImage from '../../assets/about-us.png';
 import TrueFocus from '../../components/animations/TrueFocus';
 import Stack from '../../components/animations/Stack';
+import GridMotion from '../../components/animations/GridMotion';
 
 const teamMembers = [
   {
@@ -47,9 +48,38 @@ const AboutUs = () => {
       </section>
 
       {/* Banner Image */}
-      <section className="w-full h-96 overflow-hidden">
-        <img src={teamImage} alt="Our Team" className="w-full h-full object-cover object-center" />
-      </section>
+      <section className="w-full h-[500px] md:h-[650px] relative z-0">
+  <GridMotion
+  items={[
+    'https://cdn.pixabay.com/photo/2015/01/08/18/11/laptops-593296_1280.jpg',
+    'https://cdn.pixabay.com/photo/2017/01/14/10/56/people-1979261_1280.jpg',
+    'https://cdn.pixabay.com/photo/2019/12/02/23/20/online-4668930_1280.jpg',
+    'https://cdn.pixabay.com/photo/2019/12/29/19/40/online-4727942_1280.jpg',
+    'https://cdn.pixabay.com/photo/2022/01/28/12/17/distance-learning-6974511_1280.jpg',
+    'https://cdn.pixabay.com/photo/2020/05/12/13/33/online-learning-5163039_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/07/17/22/42/startup-849804_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/01/08/18/24/children-593313_1280.jpg',
+    'https://cdn.pixabay.com/photo/2017/02/07/13/46/target-2045924_1280.jpg',
+    'https://cdn.pixabay.com/photo/2021/08/04/13/06/software-developer-6521720_1280.jpg',
+    'https://cdn.pixabay.com/photo/2017/04/23/19/30/earth-2254769_1280.jpg',
+    'https://cdn.pixabay.com/photo/2022/12/03/23/00/cyber-brain-7633488_1280.jpg',
+    'https://cdn.pixabay.com/photo/2019/12/29/19/40/online-4727942_1280.jpg',
+    'https://cdn.pixabay.com/photo/2022/01/28/12/17/distance-learning-6974511_1280.jpg',
+    'https://cdn.pixabay.com/photo/2020/05/12/13/33/online-learning-5163039_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/07/17/22/42/startup-849804_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/01/08/18/24/children-593313_1280.jpg',
+    'https://cdn.pixabay.com/photo/2017/02/07/13/46/target-2045924_1280.jpg',
+    'https://cdn.pixabay.com/photo/2021/08/04/13/06/software-developer-6521720_1280.jpg',
+    'https://cdn.pixabay.com/photo/2017/04/23/19/30/earth-2254769_1280.jpg',
+    'https://cdn.pixabay.com/photo/2022/12/03/23/00/cyber-brain-7633488_1280.jpg',
+    
+    'https://cdn.pixabay.com/photo/2019/12/29/19/40/online-4727942_1280.jpg',
+    'https://cdn.pixabay.com/photo/2022/01/28/12/17/distance-learning-6974511_1280.jpg',
+  
+  ]}
+/>
+
+</section>
 
       {/* Split Section */}
       <section className="py-20 px-6 md:px-16 flex flex-col lg:flex-row gap-16 max-w-7xl mx-auto">
