@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5000/api', // ✅ Adjust if needed
+  baseURL: 'http://localhost:5000/api', // Updated to match API documentation
   headers: {
     'Content-Type': 'application/json',
   },
@@ -24,24 +24,45 @@ instance.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    // Any status codes outside the range of 2xx cause this function to trigger
-    const errorMessage =
-      error.response?.data?.message ||
-      error.message ||
-      'Something went wrong';
+    console.error('Axios Error Intercepted:', error);
 
-    // You can handle specific status codes here
-    if (error.response?.status === 401) {
-      // Handle unauthorized access (e.g., redirect to login)
-      localStorage.removeItem('token');
-      // You might want to redirect to login page or dispatch an action
-      // window.location.href = '/login';
+    // Log more detailed information about the error
+    if (error.response) {
+      console.error('Error Response:', {
+        status: error.response.status,
+        statusText: error.response.statusText,
+        data: error.response.data
+      });
+
+      // Add the response data to the error object for easier access
+      error.responseData = error.response.data;
+
+      // Check if it's an "already enrolled" error - handle it gracefully
+      if (error.response.status === 400 &&
+        error.response.data.message === "Already enrolled in this course") {
+        console.log("Detected 'already enrolled' error - this is expected in some cases");
+      }
+    } else if (error.request) {
+      console.error('Error Request:', error.request);
     }
 
-    // You can also handle other status codes as needed
+    // Pass through the full error object for better debugging
+    if (error.response?.status === 401) {
+      // Handle unauthorized access
+      localStorage.removeItem('token');
+      const userType = localStorage.getItem('userType');
+      localStorage.removeItem('userType');
 
-    // Return a rejected promise with the error message
-    return Promise.reject(errorMessage);
+      // Redirect based on user type
+      if (userType === 'admin') {
+        window.location.href = '/auth/admin/login';
+      } else {
+        window.location.href = '/auth/login';
+      }
+    }
+
+    // Return the full error object to preserve the error structure
+    return Promise.reject(error);
   }
 );
 

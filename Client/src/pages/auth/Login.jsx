@@ -1,26 +1,48 @@
 import loginImage from "../../assets/react.svg"; // Use any image you like
-import { useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { useToast } from "../../hooks/useToast";
 
 const Login = () => {
     const { login } = useAuth();
+    const { showToast } = useToast();
     const navigate = useNavigate();
 
-    const handleUserLogin = (e) => {
-        e.preventDefault();
-        login({ name: "Ishika", email: "ishika@example.com", role: "user" });
-        navigate("/dashboard");
-    };
+    // Form state
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleAdminLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        login({ name: "Admin", email: "admin@example.com", role: "admin" });
-        navigate("/admin/dashboard");
+        setIsLoading(true);
+
+        try {
+            const credentials = {
+                email,
+                password,
+            };
+
+            await login(credentials, false); // false for user login
+
+            showToast("Successfully logged in", "success");
+            navigate("/dashboard");
+        } catch (error) {
+            showToast(
+                typeof error === "string"
+                    ? error
+                    : "Invalid credentials. Please try again.",
+                "error"
+            );
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 flex items-center justify-center p-4">
-            <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+        <div className="min-h-[80vh] flex items-center justify-center p-4">
+            <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
                 {/* Left: Image */}
                 <div className="hidden md:flex items-center justify-center bg-blue-100">
                     <img
@@ -33,14 +55,14 @@ const Login = () => {
                 {/* Right: Login Form */}
                 <div className="p-8 sm:p-12">
                     <h2 className="text-3xl font-bold text-blue-700 mb-6">
-                        Welcome Back
+                        User Login
                     </h2>
                     <p className="text-sm text-gray-600 mb-6">
                         Please enter your credentials to login
                     </p>
 
-                    {/* Login as User */}
-                    <form onSubmit={handleUserLogin} className="space-y-5">
+                    {/* Login Form */}
+                    <form onSubmit={handleLogin} className="space-y-5">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Email
@@ -48,6 +70,9 @@ const Login = () => {
                             <input
                                 type="email"
                                 placeholder="you@example.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
                                 className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                             />
                         </div>
@@ -59,37 +84,48 @@ const Login = () => {
                             <input
                                 type="password"
                                 placeholder="Enter your password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
                                 className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                             />
                         </div>
 
                         <button
                             type="submit"
-                            className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+                            disabled={isLoading}
+                            className={`w-full font-semibold py-2 rounded-lg transition duration-200 
+                                bg-blue-600 hover:bg-blue-700 text-white
+                                ${
+                                    isLoading
+                                        ? "opacity-70 cursor-not-allowed"
+                                        : ""
+                                }
+                            `}
                         >
-                            Login as User
+                            {isLoading ? "Logging in..." : "Login"}
                         </button>
                     </form>
 
-                    {/* Admin Login Button */}
-                    <div className="mt-4">
-                        <button
-                            onClick={handleAdminLogin}
-                            className="w-full bg-red-600 text-white font-semibold py-2 rounded-lg hover:bg-red-700 transition duration-200"
-                        >
-                            Login as Admin
-                        </button>
+                    <div className="mt-6 flex flex-col space-y-2">
+                        <p className="text-sm text-gray-500">
+                            Don't have an account?{" "}
+                            <Link
+                                to="/auth/register"
+                                className="text-blue-600 hover:underline"
+                            >
+                                Register here
+                            </Link>
+                        </p>
+                        <p className="text-sm text-gray-500">
+                            <Link
+                                to="/auth/admin/login"
+                                className="text-blue-600 hover:underline"
+                            >
+                                Login as Admin
+                            </Link>
+                        </p>
                     </div>
-
-                    <p className="text-sm text-gray-500 mt-6">
-                        Don't have an account?{" "}
-                        <a
-                            href="/register"
-                            className="text-blue-600 hover:underline"
-                        >
-                            Register here
-                        </a>
-                    </p>
                 </div>
             </div>
         </div>

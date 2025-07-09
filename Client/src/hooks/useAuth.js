@@ -1,21 +1,15 @@
 // src/hooks/useAuth.js
-import { useState } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContextCreator';
 
-const useAuth = () => {
-  const [user, setUser] = useState(null); // null = not logged in
+export const useAuth = () => {
+  const auth = useContext(AuthContext);
 
-  // Pass role in dummyUser: "user" or "admin"
-  const login = (dummyUser = { name: 'Ishika', email: 'ishika@example.com', role: 'user' }) => {
-    setUser(dummyUser);
-  };
+  if (!auth) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
 
-  const logout = () => {
-    setUser(null);
-  };
-
-  const isAdmin = user?.role === 'admin';
-
-  return { user, login, logout, isAdmin };
+  return auth;
 };
 
 export default useAuth;

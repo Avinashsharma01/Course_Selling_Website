@@ -14,7 +14,7 @@ import courseRoutes from './routes/course.route.js';
 import enrollmentRoutes from './routes/enrollment.route.js';
 
 // Middlewares
-import { apiLimiter, authLimiter } from './middleware/rateLimiter.js';
+// import { apiLimiter, authLimiter } from './middleware/rateLimiter.js';
 
 import connectToDb from "./database/db.js";
 
@@ -27,7 +27,7 @@ app.use(helmet()); // Security headers
 app.use(morgan('dev')); // HTTP request logging
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(apiLimiter); // Rate limiting for all routes
+// app.use(apiLimiter); // Rate limiting for all routes
 
 // Test route
 app.get("/", (req, res) => {
@@ -36,8 +36,16 @@ app.get("/", (req, res) => {
 
 // Use routes
 app.use("/api", contactRoute);
-app.use("/api/user", authLimiter, userRoutes); // Stricter rate limiting for auth routes
-app.use("/api/admin", authLimiter, adminRoutes); // Admin routes with rate limiting
+// app.use("/api/user", authLimiter, userRoutes); // Stricter rate limiting for auth routes
+// app.use("/api/admin", authLimiter, adminRoutes); // Admin routes with rate limiting
+
+
+
+app.use("/api/user", userRoutes); // Stricter rate limiting for auth routes
+app.use("/api/admin", adminRoutes); // Admin routes with rate limiting
+
+
+
 app.use("/api/courses", courseRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
 

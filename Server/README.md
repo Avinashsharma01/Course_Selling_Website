@@ -7,7 +7,7 @@ This document provides comprehensive documentation for the backend API of the Co
 ## Base URL
 
 ```
-http://localhost:3000/api
+http://localhost:5000/api
 ```
 
 ## Authentication

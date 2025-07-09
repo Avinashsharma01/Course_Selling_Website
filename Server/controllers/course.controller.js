@@ -21,6 +21,15 @@ const addCourse = async (req, res) => {
 // Admin: Update course
 const updateCourse = async (req, res) => {
   try {
+    console.log('Update Course - Request Body:', req.body);
+    console.log('Update Course - User ID:', req.userId);
+    console.log('Update Course - Course ID:', req.params.id);
+
+    // Validate that the ID is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid course ID format' });
+    }
+
     // First find the course to check ownership
     const course = await Course.findById(req.params.id);
 
@@ -29,6 +38,9 @@ const updateCourse = async (req, res) => {
       return res.status(404).json({ message: 'Course not found' });
     }
 
+    console.log('Update Course - Found Course:', course);
+    console.log('Update Course - Course creator ID:', course.createdBy);
+
     // Check if the admin is the owner of the course
     if (course.createdBy.toString() !== req.userId && !req.user.isSuperAdmin) {
       return res.status(403).json({
@@ -36,15 +48,44 @@ const updateCourse = async (req, res) => {
       });
     }
 
-    const updated = await Course.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true }
-    );
+    // Process request data to ensure it matches schema
+    const sanitizedData = {
+      title: req.body.title,
+      description: req.body.description,
+      price: parseFloat(req.body.price) || 0,
+      instructor: req.body.instructor,
+      duration: parseFloat(req.body.duration) || 0,
+      level: req.body.level || 'beginner',
+      category: req.body.category,
+      thumbnail: req.body.thumbnail || 'https://via.placeholder.com/300x200',
+      topics: Array.isArray(req.body.topics) ? req.body.topics : []
+    };
 
-    res.status(200).json(updated);
+    console.log('Update Course - Sanitized data:', sanitizedData);
+
+    try {
+      const updated = await Course.findByIdAndUpdate(
+        req.params.id,
+        sanitizedData,
+        { new: true, runValidators: true }
+      );
+
+      console.log('Update Course - Updated result:', updated);
+      res.status(200).json(updated);
+    } catch (updateError) {
+      console.error('Update Course - Mongoose error:', updateError);
+      res.status(500).json({
+        message: 'Failed to update course - Database error',
+        error: updateError.message,
+        validationErrors: updateError.errors
+      });
+    }
   } catch (error) {
-    res.status(500).json({ message: 'Failed to update course', error: error.message });
+    console.error('Update Course - General error:', error);
+    res.status(500).json({
+      message: 'Failed to update course - General error',
+      error: error.message
+    });
   }
 };
 
@@ -246,6 +287,38 @@ const getAdminCourses = async (req, res) => {
   }
 };
 
+// Get featured courses (courses with highest enrollment count or marked as featured)
+const getFeaturedCourses = async (req, res) => {
+  try {
+    // Get top courses by enrollment count (up to 6)
+    const featuredCourses = await Course.find({})
+      .sort({ enrollmentCount: -1 })
+      .limit(6);
+
+    res.status(200).json(featuredCourses);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch featured courses', error: error.message });
+  }
+};
+
+// Get all unique course categories
+const getCategories = async (req, res) => {
+  try {
+    // Use aggregation to get unique categories
+    const categories = await Course.aggregate([
+      { $group: { _id: "$category" } },
+      { $sort: { _id: 1 } }  // Sort alphabetically
+    ]);
+
+    // Extract category names
+    const categoryList = categories.map(item => item._id).filter(Boolean);
+
+    res.status(200).json(categoryList);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch course categories', error: error.message });
+  }
+};
+
 export {
   addCourse,
   updateCourse,
@@ -254,5 +327,7 @@ export {
   getCourseById,
   searchCourses,
   getCoursesByCategory,
-  getAdminCourses
+  getAdminCourses,
+  getFeaturedCourses,
+  getCategories
 };
