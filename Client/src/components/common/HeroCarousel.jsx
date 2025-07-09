@@ -6,17 +6,17 @@ const slides = [
   {
     title: 'Master New Skills Online',
     subtitle: 'Access 100+ expert-led courses anytime, anywhere.',
-    bg: 'bg-gradient-to-r from-blue-600 to-green-500',
+    image: 'https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg',
   },
   {
     title: 'Upskill for Your Dream Job',
     subtitle: 'Courses built for real-world careers and success.',
-    bg: 'bg-gradient-to-r from-green-600 to-blue-500',
+    image: 'https://cdn.pixabay.com/photo/2025/06/16/11/04/utah-9663013_1280.jpg',
   },
   {
     title: 'Learn at Your Own Pace',
     subtitle: 'Flexible learning designed just for you.',
-    bg: 'bg-gradient-to-r from-blue-800 to-green-600',
+    image: 'https://cdn.pixabay.com/photo/2025/03/31/21/30/italy-9505449_1280.jpg',
   },
 ];
 
@@ -31,7 +31,18 @@ const HeroCarousel = () => {
   }, []);
 
   return (
-    <section className={`relative overflow-hidden h-[70vh] md:h-[80vh] flex items-center justify-center ${slides[current].bg}`}>
+    <section className="relative overflow-hidden h-[70vh] md:h-[95vh]">
+      {/* Background Image */}
+      <img
+        src={slides[current].image}
+        alt={slides[current].title}
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-black/50" />
+
+      {/* Animated Slide Content */}
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -39,7 +50,7 @@ const HeroCarousel = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.8 }}
-          className="text-center px-6 max-w-3xl"
+          className="relative z-10 text-center px-6 max-w-3xl mx-auto pt-32 md:pt-44"
         >
           <h2 className="text-3xl md:text-5xl font-extrabold text-white drop-shadow mb-4">
             {slides[current].title}
@@ -55,11 +66,13 @@ const HeroCarousel = () => {
       </AnimatePresence>
 
       {/* Slide Indicator Dots */}
-      <div className="absolute bottom-5 flex gap-2 justify-center w-full">
+      <div className="absolute bottom-5 flex gap-2 justify-center w-full z-10">
         {slides.map((_, index) => (
           <div
             key={index}
-            className={`w-3 h-3 rounded-full ${index === current ? 'bg-white' : 'bg-white/50'} transition`}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === current ? 'bg-white' : 'bg-white/50'
+            }`}
           />
         ))}
       </div>

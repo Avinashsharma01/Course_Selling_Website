@@ -1,0 +1,124 @@
+.about-wrapper {
+  font-family: 'Segoe UI', sans-serif;
+  color: #2c3e50;
+  background: linear-gradient(to bottom, #f7f7f7 0%, #ffffff 100%);
+  padding-bottom: 80px;
+}
+
+/* Hero Title Section */
+.about-hero {
+  text-align: center;
+  padding: 40px 20px 10px;
+}
+
+.about-banner {
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
+.about-banner-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 450px;
+  object-fit: contain;
+}
+
+/* Text Content Section */
+.about-content {
+  max-width: 2060px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+  text-align: center;
+}
+
+.about-text p {
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: #444;
+  margin-bottom: 1.5rem;
+}
+
+/* Stack Section */
+.about-cards-stack {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 80px;
+}
+
+.stack-section-heading {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 60px;
+  font-weight: 700;
+  color: #1e90ff;
+}
+/* Team Section */
+.team-section {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+.team-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1e3a8a;
+  margin-bottom: 40px;
+}
+
+.team-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.team-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 25px;
+  width: 250px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.team-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.team-role {
+  font-weight: 600;
+  color: #2563eb;
+  margin-top: 5px;
+}
+
+.team-since {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Existing Stack spacing */
+.stack-subheading {
+  font-size: 1rem;
+  margin-top: -10px;
+  margin-bottom: 50px;
+  color: #444;
+}
+
+.stack-adjusted {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+}

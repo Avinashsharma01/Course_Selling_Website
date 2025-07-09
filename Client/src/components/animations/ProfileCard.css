@@ -1,0 +1,92 @@
+.pc-card-wrapper {
+  position: relative;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  width: 100%;
+  height: 70%;
+}
+
+.pc-card {
+  position: relative;
+  background: #0f172a;
+  color: white;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  padding: 1.5rem;
+  transition: transform 0.2s ease;
+  transform: rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
+  transform-style: preserve-3d;
+  will-change: transform;
+  z-index: 1;
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.1);
+  background-image: radial-gradient(
+    circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+    rgba(255, 255, 255, 0.1),
+    transparent 40%
+  );
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pc-card.active {
+  box-shadow: 0 0 80px rgba(0, 255, 255, 0.2), 0 0 30px rgba(0, 255, 255, 0.2);
+}
+
+.pc-inside {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Image at the top (rectangle) */
+.pc-image-container {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.pc-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+
+/* Card content section */
+.pc-details {
+  text-align: center;
+}
+
+.pc-details h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.pc-details p {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  margin-top: 0.5rem;
+}
+
+/* Button */
+.pc-contact-btn {
+  margin-top: 1rem;
+  background: linear-gradient(to right, #06b6d4, #3b82f6);
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.pc-contact-btn:hover {
+  background: linear-gradient(to right, #3b82f6, #06b6d4);
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
