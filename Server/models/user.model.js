@@ -21,11 +21,21 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
-    isAdmin: {
-      type: Boolean,
-      default: false
+    profilePicture: {
+      type: String,
+      default: 'https://via.placeholder.com/150'
+    },
+    phoneNumber: {
+      type: String,
+      default: ''
+    },
+    interests: [{
+      type: String
+    }],
+    enrolledCourseCount: {
+      type: Number,
+      default: 0
     }
-
   },
   {
     timestamps: true,

@@ -1,10 +1,12 @@
+
 import { useParams } from 'react-router-dom';
 import { dummyCourses } from '../../api/dummyCourses';
 import { FaClock, FaChartLine, FaUser, FaCheckCircle, FaStar, FaBook } from 'react-icons/fa';
 
+
 const CourseDetail = () => {
-  const { id } = useParams();
-  const course = dummyCourses.find(c => c.id.toString() === id);
+    const { id } = useParams();
+    const course = dummyCourses.find((c) => c.id.toString() === id);
 
   if (!course) {
     return <p className="text-center text-red-600 text-xl mt-32">🚫 Course not found.</p>;

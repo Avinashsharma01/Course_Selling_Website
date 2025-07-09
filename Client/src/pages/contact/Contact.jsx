@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import axios from '../../api/axios';
 import { FiSend } from 'react-icons/fi';
@@ -5,18 +6,19 @@ import { FiSend } from 'react-icons/fi';
 const imageURL = 'https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg';
 
 const Contact = () => {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [success, setSuccess] = useState('');
-  const [error, setError] = useState('');
+    const [form, setForm] = useState({ name: "", email: "", message: "" });
+    const [success, setSuccess] = useState("");
+    const [error, setError] = useState("");
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSuccess('');
-    setError('');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSuccess("");
+        setError("");
+
 
     try {
       await axios.post('/contact', form);
@@ -85,6 +87,4 @@ const Contact = () => {
       </div>
     </div>
   );
-};
-
 export default Contact;

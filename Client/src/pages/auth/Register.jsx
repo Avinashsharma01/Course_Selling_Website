@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
 const Register = () => {
+
   const { login } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -84,6 +85,5 @@ const Register = () => {
       </div>
     </div>
   );
-};
 
 export default Register;

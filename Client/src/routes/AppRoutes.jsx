@@ -1,5 +1,6 @@
-import { Routes, Route } from 'react-router-dom';
-import MainLayout from '../layouts/MainLayout';
+import { Routes, Route } from "react-router-dom";
+import MainLayout from "../layouts/MainLayout";
+
 
 import Home from '../pages/home/Home';
 import Courses from '../pages/courses/Courses';
@@ -18,6 +19,7 @@ import NotFound from '../pages/notfound/NotFound';
 
 
 const AppRoutes = () => {
+
   return (
     <>
       
@@ -40,6 +42,7 @@ const AppRoutes = () => {
       </Routes>
     </>
   );
+
 };
 
 export default AppRoutes;
