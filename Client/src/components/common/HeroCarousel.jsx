@@ -31,7 +31,7 @@ const HeroCarousel = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 6000);
+    }, 3000); // Change every 3 seconds
     return () => clearInterval(timer);
   }, []);
 
@@ -41,7 +41,7 @@ const HeroCarousel = () => {
       <img
         src={slides[current].image}
         alt={slides[current].title}
-        className="absolute inset-0 w-full h-full object-cover transition-all duration-1000"
+        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
       />
 
       {/* Dark Overlay */}
@@ -51,10 +51,10 @@ const HeroCarousel = () => {
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
-          initial={{ opacity: 0, x: -40, scale: 0.9 }}
+          initial={{ opacity: 0, x: -40, scale: 0.95 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
-          exit={{ opacity: 0, x: 40, scale: 0.9 }}
-          transition={{ duration: 0.9, ease: "easeInOut" }}
+          exit={{ opacity: 0, x: 40, scale: 0.95 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
           className="relative z-10 grid md:grid-cols-2 max-w-7xl mx-auto w-full px-6"
         >
           {/* LEFT TEXT */}
@@ -74,8 +74,6 @@ const HeroCarousel = () => {
               Explore Courses
             </Link>
           </div>
-
-         
         </motion.div>
       </AnimatePresence>
 
