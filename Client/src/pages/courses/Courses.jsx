@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom"; // 👈 added
+import { useLocation } from "react-router-dom";
+
 import CourseCard from "../../components/course/CourseCard";
 import SpotlightCard from "../../components/animations/SpotlightCard";
 import CategoryFilter from "../../components/course/CategoryFilter";
@@ -9,9 +10,10 @@ import { useCourses } from "../../hooks/useCourses";
 import Loader from "../../components/common/Loader";
 
 const Courses = () => {
-  const location = useLocation(); // 👈
+  const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const urlCategory = queryParams.get("category");
+  const urlSearch = queryParams.get("search")?.toLowerCase().trim();
 
   const [selectedCategory, setSelectedCategory] = useState("All");
   const { courses, coursesLoading, fetchAllCourses } = useCourses();
@@ -20,31 +22,37 @@ const Courses = () => {
     fetchAllCourses();
   }, [fetchAllCourses]);
 
+  // Handle URL param category or search
   useEffect(() => {
-    if (urlCategory) {
+    if (urlSearch) {
+      setSelectedCategory("All");
+    } else if (urlCategory) {
       setSelectedCategory(urlCategory);
     }
-  }, [urlCategory]);
+  }, [urlCategory, urlSearch]);
+
+  const normalize = (str) => str?.toLowerCase().replace(/\s+/g, "").trim();
 
   const categories =
     courses && courses.length > 0
       ? ["All", ...new Set(courses.map((course) => course.category))]
-      : [
-          "All",
-          "Web Development",
-          "Data Science",
-          "Design",
-          "Mobile Development",
-        ];
+      : ["All", "Web Development", "Data Science", "Design", "Mobile Development"];
 
-  const normalize = (str) => str?.toLowerCase().replace(/\s+/g, "").trim();
+  let filteredCourses = courses;
 
-  const filteredCourses =
-    selectedCategory === "All"
-      ? courses
-      : courses?.filter(
-          (course) => normalize(course.category) === normalize(selectedCategory)
-        );
+  if (selectedCategory !== "All") {
+    filteredCourses = filteredCourses?.filter(
+      (course) => normalize(course.category) === normalize(selectedCategory)
+    );
+  }
+
+  if (urlSearch) {
+    filteredCourses = filteredCourses?.filter(
+      (course) =>
+        course.title.toLowerCase().includes(urlSearch) ||
+        course.category.toLowerCase().includes(urlSearch)
+    );
+  }
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4 md:px-16 bg-gray-100">
@@ -72,7 +80,10 @@ const Courses = () => {
           <CategoryFilter
             categories={categories}
             selectedCategory={selectedCategory}
-            onSelect={setSelectedCategory}
+            onSelect={(cat) => {
+              setSelectedCategory(cat);
+              window.history.replaceState(null, "", "/courses"); // reset search param on manual category click
+            }}
           />
         </div>
 
@@ -94,7 +105,7 @@ const Courses = () => {
           ) : (
             <div className="col-span-full text-center py-10">
               <p className="text-lg text-gray-600">
-                No courses available in this category.
+                No courses available in this category or search.
               </p>
             </div>
           )}
