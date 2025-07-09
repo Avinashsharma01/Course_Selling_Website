@@ -11,7 +11,9 @@ import {
   getCourseById,
   searchCourses,
   getCoursesByCategory,
-  getAdminCourses
+  getAdminCourses,
+  getFeaturedCourses,
+  getCategories
 } from '../controllers/course.controller.js';
 
 const router = express.Router();
@@ -24,6 +26,8 @@ router.get('/admin/my-courses', authMiddleware, adminMiddleware, getAdminCourses
 
 // Public user routes
 router.get('/', getAllCourses);
+router.get('/featured', getFeaturedCourses);
+router.get('/categories', getCategories);
 router.get('/search', searchCourses);
 router.get('/category/:category', getCoursesByCategory);
 router.get('/:id', getCourseById);

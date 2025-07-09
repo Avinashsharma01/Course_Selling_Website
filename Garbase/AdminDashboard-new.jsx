@@ -1,0 +1,620 @@
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+    FaUsers,
+    FaBook,
+    FaUserShield,
+    FaPlus,
+    FaSearch,
+    FaEdit,
+    FaTrash,
+    FaChartBar,
+} from "react-icons/fa";
+import { MdSpaceDashboard, MdCategory } from "react-icons/md";
+import { useAuth } from "../../hooks/useAuth";
+import { useCourses } from "../../hooks/useCourses";
+import { useToast } from "../../hooks/useToast";
+import Loader from "../../components/common/Loader";
+import courseService from "../../api/services/courseService";
+import authService from "../../api/services/authService";
+
+const SidebarItem = ({ icon: Icon, label, active, onClick }) => (
+    <div
+        className={`flex items-center gap-3 px-4 py-3 rounded-md cursor-pointer transition ${
+            active
+                ? "bg-blue-100 text-blue-800"
+                : "text-gray-700 hover:bg-blue-50"
+        }`}
+        onClick={onClick}
+    >
+        <Icon className={active ? "text-blue-600" : "text-gray-600"} />
+        <span className="font-medium">{label}</span>
+    </div>
+);
+
+const ITEMS_PER_PAGE = 6;
+
+const AdminDashboard = () => {
+    const { user } = useAuth();
+    const { adminCourses, adminCoursesLoading, adminStats, fetchAdminCourses } =
+        useCourses();
+    const { showToast } = useToast();
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [tab, setTab] = useState("courses");
+    const [page, setPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
+    const [admins, setAdmins] = useState([]);
+    const [isLoadingAdmins, setIsLoadingAdmins] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(null);
+
+    // Fetch admin courses
+    useEffect(() => {
+        const loadAdminCourses = async () => {
+            try {
+                await fetchAdminCourses();
+            } catch (error) {
+                showToast("Failed to load your courses", "error");
+            }
+        };
+
+        loadAdminCourses();
+    }, [fetchAdminCourses, showToast]);
+
+    // Fetch admins list if super admin
+    useEffect(() => {
+        const fetchAdmins = async () => {
+            if (user?.isSuperAdmin) {
+                setIsLoadingAdmins(true);
+                try {
+                    const adminsList = await authService.getAllAdmins();
+                    setAdmins(adminsList);
+                } catch (error) {
+                    showToast("Failed to load admin users", "error");
+                } finally {
+                    setIsLoadingAdmins(false);
+                }
+            }
+        };
+
+        fetchAdmins();
+    }, [user, showToast]);
+
+    // Filter courses based on search query
+    const filteredCourses = adminCourses.filter(
+        (course) =>
+            course.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            course.instructor
+                ?.toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+            course.category?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Filter admins based on search query
+    const filteredAdmins = admins.filter(
+        (admin) =>
+            admin.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            admin.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            admin.position?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Paginated lists
+    const paginatedCourses = filteredCourses.slice(
+        (page - 1) * ITEMS_PER_PAGE,
+        page * ITEMS_PER_PAGE
+    );
+
+    const paginatedAdmins = filteredAdmins.slice(
+        (page - 1) * ITEMS_PER_PAGE,
+        page * ITEMS_PER_PAGE
+    );
+
+    const totalPages = Math.ceil(
+        (tab === "courses" ? filteredCourses.length : filteredAdmins.length) /
+            ITEMS_PER_PAGE
+    );
+
+    // Handle course deletion
+    const handleDeleteCourse = async (courseId) => {
+        if (confirmDelete !== courseId) {
+            setConfirmDelete(courseId);
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            await courseService.deleteCourse(courseId);
+            await fetchAdminCourses();
+            showToast("Course deleted successfully", "success");
+        } catch (error) {
+            showToast("Failed to delete course", "error");
+        } finally {
+            setIsLoading(false);
+            setConfirmDelete(null);
+        }
+    };
+
+    // Format currency
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR",
+        }).format(price);
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-100 flex">
+            {/* Sidebar */}
+            <aside className="w-72 bg-white border-r p-6">
+                <div className="mb-10">
+                    <h2 className="text-xl font-bold text-purple-700 mb-2">
+                        🎓 CourseSelling
+                    </h2>
+                    <div className="text-gray-500 text-sm">Admin Dashboard</div>
+                </div>
+
+                {user && user.isSuperAdmin && (
+                    <div className="px-4 py-2 bg-purple-100 text-purple-800 rounded-md mb-6 text-sm font-medium flex items-center">
+                        <FaUserShield className="mr-2" /> Super Admin
+                    </div>
+                )}
+
+                <div className="space-y-1">
+                    <SidebarItem
+                        icon={MdSpaceDashboard}
+                        label="Dashboard"
+                        active={tab === "dashboard"}
+                        onClick={() => setTab("dashboard")}
+                    />
+                    <SidebarItem
+                        icon={FaBook}
+                        label="My Courses"
+                        active={tab === "courses"}
+                        onClick={() => {
+                            setTab("courses");
+                            setPage(1);
+                        }}
+                    />
+                    {user && user.isSuperAdmin && (
+                        <SidebarItem
+                            icon={FaUsers}
+                            label="Admins"
+                            active={tab === "admins"}
+                            onClick={() => {
+                                setTab("admins");
+                                setPage(1);
+                            }}
+                        />
+                    )}
+                    <SidebarItem
+                        icon={MdCategory}
+                        label="Categories"
+                        active={tab === "categories"}
+                        onClick={() => setTab("categories")}
+                    />
+                    <SidebarItem
+                        icon={FaChartBar}
+                        label="Analytics"
+                        active={tab === "analytics"}
+                        onClick={() => setTab("analytics")}
+                    />
+                </div>
+
+                <div className="mt-8">
+                    <Link
+                        to="/courses/admin/create"
+                        className="flex items-center justify-center gap-2 w-full bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-lg transition"
+                    >
+                        <FaPlus size={14} />
+                        <span>Create New Course</span>
+                    </Link>
+                </div>
+            </aside>
+
+            {/* Main Content */}
+            <main className="flex-1 p-6 overflow-y-auto">
+                {!user ? (
+                    <div className="flex justify-center items-center h-64">
+                        <Loader />
+                    </div>
+                ) : (
+                    <>
+                        <div className="flex justify-between items-center mb-6">
+                            <h1 className="text-2xl font-bold text-gray-800">
+                                {tab === "dashboard" && "Admin Dashboard"}
+                                {tab === "courses" && "My Courses"}
+                                {tab === "admins" && "Admin Management"}
+                                {tab === "categories" && "Course Categories"}
+                                {tab === "analytics" && "Analytics Dashboard"}
+                            </h1>
+
+                            {(tab === "courses" || tab === "admins") && (
+                                <div className="relative">
+                                    <FaSearch className="absolute left-3 top-3 text-gray-400" />
+                                    <input
+                                        type="text"
+                                        placeholder={`Search ${
+                                            tab === "courses"
+                                                ? "courses"
+                                                : "admins"
+                                        }...`}
+                                        value={searchQuery}
+                                        onChange={(e) =>
+                                            setSearchQuery(e.target.value)
+                                        }
+                                        className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Dashboard View */}
+                        {tab === "dashboard" && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+                                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-gray-500 text-sm font-medium">
+                                            Total Courses
+                                        </h3>
+                                        <FaBook
+                                            className="text-blue-500"
+                                            size={20}
+                                        />
+                                    </div>
+                                    <p className="text-3xl font-bold text-gray-800">
+                                        {adminCourses.length}
+                                    </p>
+                                </div>
+
+                                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-gray-500 text-sm font-medium">
+                                            Total Enrollments
+                                        </h3>
+                                        <FaUsers
+                                            className="text-green-500"
+                                            size={20}
+                                        />
+                                    </div>
+                                    <p className="text-3xl font-bold text-gray-800">
+                                        {adminStats?.totalEnrollments || 0}
+                                    </p>
+                                </div>
+
+                                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-gray-500 text-sm font-medium">
+                                            Avg. Enrollments
+                                        </h3>
+                                        <FaChartBar
+                                            className="text-purple-500"
+                                            size={20}
+                                        />
+                                    </div>
+                                    <p className="text-3xl font-bold text-gray-800">
+                                        {adminStats?.averageEnrollmentsPerCourse?.toFixed(
+                                            1
+                                        ) || 0}
+                                    </p>
+                                </div>
+
+                                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-gray-500 text-sm font-medium">
+                                            Admin Status
+                                        </h3>
+                                        <FaUserShield
+                                            className={
+                                                user.isSuperAdmin
+                                                    ? "text-purple-500"
+                                                    : "text-blue-500"
+                                            }
+                                            size={20}
+                                        />
+                                    </div>
+                                    <p className="text-lg font-bold text-gray-800">
+                                        {user.isSuperAdmin
+                                            ? "Super Admin"
+                                            : "Admin"}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Courses View */}
+                        {tab === "courses" && (
+                            <>
+                                {adminCoursesLoading ? (
+                                    <div className="flex justify-center items-center h-64">
+                                        <Loader />
+                                    </div>
+                                ) : adminCourses.length === 0 ? (
+                                    <div className="bg-white p-8 rounded-xl text-center">
+                                        <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                                            You haven't created any courses yet
+                                        </h3>
+                                        <p className="text-gray-500 mb-6">
+                                            Start creating courses to share your
+                                            knowledge with the world!
+                                        </p>
+                                        <Link
+                                            to="/courses/admin/create"
+                                            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition"
+                                        >
+                                            <FaPlus size={14} /> Create Your
+                                            First Course
+                                        </Link>
+                                    </div>
+                                ) : (
+                                    <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+                                        <table className="min-w-full divide-y divide-gray-200">
+                                            <thead className="bg-gray-50">
+                                                <tr>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Course
+                                                    </th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Category
+                                                    </th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Price
+                                                    </th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Enrollments
+                                                    </th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Actions
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="bg-white divide-y divide-gray-200">
+                                                {paginatedCourses.map(
+                                                    (course) => (
+                                                        <tr
+                                                            key={course._id}
+                                                            className="hover:bg-gray-50"
+                                                        >
+                                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                                <div className="flex items-center">
+                                                                    <div className="h-10 w-10 flex-shrink-0">
+                                                                        <img
+                                                                            className="h-10 w-10 rounded-full object-cover"
+                                                                            src={
+                                                                                course.thumbnail ||
+                                                                                "https://via.placeholder.com/40"
+                                                                            }
+                                                                            alt={
+                                                                                course.title
+                                                                            }
+                                                                        />
+                                                                    </div>
+                                                                    <div className="ml-4">
+                                                                        <div className="text-sm font-medium text-gray-900">
+                                                                            {
+                                                                                course.title
+                                                                            }
+                                                                        </div>
+                                                                        <div className="text-sm text-gray-500">
+                                                                            {
+                                                                                course.instructor
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                                    {
+                                                                        course.category
+                                                                    }
+                                                                </span>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                                <div className="text-sm text-gray-900">
+                                                                    {formatPrice(
+                                                                        course.price
+                                                                    )}
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                                {
+                                                                    course.enrollmentCount
+                                                                }
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                                <div className="flex gap-3">
+                                                                    <Link
+                                                                        to={`/courses/admin/edit/${course._id}`}
+                                                                        className="text-indigo-600 hover:text-indigo-900"
+                                                                    >
+                                                                        <FaEdit />
+                                                                    </Link>
+                                                                    <button
+                                                                        onClick={() =>
+                                                                            handleDeleteCourse(
+                                                                                course._id
+                                                                            )
+                                                                        }
+                                                                        className={`${
+                                                                            confirmDelete ===
+                                                                            course._id
+                                                                                ? "text-red-600"
+                                                                                : "text-gray-500"
+                                                                        } hover:text-red-800`}
+                                                                        disabled={
+                                                                            isLoading
+                                                                        }
+                                                                    >
+                                                                        <FaTrash />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
+                            </>
+                        )}
+
+                        {/* Admins View (Super Admin only) */}
+                        {tab === "admins" && user.isSuperAdmin && (
+                            <>
+                                {isLoadingAdmins ? (
+                                    <div className="flex justify-center items-center h-64">
+                                        <Loader />
+                                    </div>
+                                ) : admins.length === 0 ? (
+                                    <div className="bg-white p-8 rounded-xl text-center">
+                                        <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                                            No admins found
+                                        </h3>
+                                        <Link
+                                            to="/admin/create"
+                                            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition"
+                                        >
+                                            <FaPlus size={14} /> Add New Admin
+                                        </Link>
+                                    </div>
+                                ) : (
+                                    <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+                                        <table className="min-w-full divide-y divide-gray-200">
+                                            <thead className="bg-gray-50">
+                                                <tr>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Name
+                                                    </th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Email
+                                                    </th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Position
+                                                    </th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Role
+                                                    </th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        Actions
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="bg-white divide-y divide-gray-200">
+                                                {paginatedAdmins.map(
+                                                    (admin) => (
+                                                        <tr
+                                                            key={admin._id}
+                                                            className="hover:bg-gray-50"
+                                                        >
+                                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                                <div className="flex items-center">
+                                                                    <div className="ml-4">
+                                                                        <div className="text-sm font-medium text-gray-900">
+                                                                            {
+                                                                                admin.name
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                                <div className="text-sm text-gray-900">
+                                                                    {
+                                                                        admin.email
+                                                                    }
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                                <div className="text-sm text-gray-900">
+                                                                    {
+                                                                        admin.position
+                                                                    }
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                                <span
+                                                                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                ${
+                                    admin.isSuperAdmin
+                                        ? "bg-purple-100 text-purple-800"
+                                        : "bg-blue-100 text-blue-800"
+                                }`}
+                                                                >
+                                                                    {admin.isSuperAdmin
+                                                                        ? "Super Admin"
+                                                                        : "Admin"}
+                                                                </span>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                                <div className="flex gap-3">
+                                                                    <Link
+                                                                        to={`/admin/edit/${admin._id}`}
+                                                                        className="text-indigo-600 hover:text-indigo-900"
+                                                                    >
+                                                                        <FaEdit />
+                                                                    </Link>
+                                                                    {!admin.isSuperAdmin && (
+                                                                        <button className="text-gray-500 hover:text-red-800">
+                                                                            <FaTrash />
+                                                                        </button>
+                                                                    )}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
+                            </>
+                        )}
+
+                        {/* Pagination */}
+                        {((tab === "courses" &&
+                            filteredCourses.length > ITEMS_PER_PAGE) ||
+                            (tab === "admins" &&
+                                filteredAdmins.length > ITEMS_PER_PAGE)) && (
+                            <div className="flex justify-between items-center mt-6">
+                                <button
+                                    onClick={() =>
+                                        setPage(Math.max(1, page - 1))
+                                    }
+                                    disabled={page === 1}
+                                    className={`px-4 py-2 border rounded-md ${
+                                        page === 1
+                                            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                            : "bg-white text-gray-700 hover:bg-gray-50"
+                                    }`}
+                                >
+                                    Previous
+                                </button>
+
+                                <span className="text-sm text-gray-700">
+                                    Page {page} of {totalPages}
+                                </span>
+
+                                <button
+                                    onClick={() =>
+                                        setPage(Math.min(totalPages, page + 1))
+                                    }
+                                    disabled={page === totalPages}
+                                    className={`px-4 py-2 border rounded-md ${
+                                        page === totalPages
+                                            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                            : "bg-white text-gray-700 hover:bg-gray-50"
+                                    }`}
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        )}
+                    </>
+                )}
+            </main>
+        </div>
+    );
+};
+
+export default AdminDashboard;

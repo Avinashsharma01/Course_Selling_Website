@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, FreeMode } from "swiper/modules";
@@ -13,30 +13,10 @@ import Loader from "../common/Loader";
 const FeaturedCourses = () => {
     const { featuredCourses, featuredCoursesLoading, fetchFeaturedCourses } =
         useCourses();
-    const [hasLoaded, setHasLoaded] = useState(false);
 
     useEffect(() => {
-        let isMounted = true;
-
-        const loadFeaturedCourses = async () => {
-            if (!hasLoaded) {
-                try {
-                    await fetchFeaturedCourses();
-                    if (isMounted) {
-                        setHasLoaded(true);
-                    }
-                } catch (err) {
-                    console.error("Error loading featured courses:", err);
-                }
-            }
-        };
-
-        loadFeaturedCourses();
-
-        return () => {
-            isMounted = false;
-        };
-    }, [fetchFeaturedCourses, hasLoaded]);
+        fetchFeaturedCourses();
+    }, [fetchFeaturedCourses]);
 
     return (
         <section className="min-h-screen bg-gradient-to-b from-white to-blue-50 flex items-center pt-32 pb-20">
@@ -88,7 +68,7 @@ const FeaturedCourses = () => {
                             <SwiperSlide key={c._id || c.id}>
                                 <div className="bg-white group shadow-md hover:shadow-2xl transition rounded-2xl overflow-hidden border-l-4 border-green-400 hover:border-blue-600 h-full">
                                     <img
-                                        src={c.thumbnail}
+                                        src={c.image}
                                         alt={c.title}
                                         className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500"
                                     />

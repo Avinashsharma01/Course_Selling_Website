@@ -1,28 +1,26 @@
-import { Outlet, useLocation } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar';
-import Footer from '../components/layout/Footer';
+import { Outlet } from "react-router-dom";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
+import Toast from "../components/common/Toast";
 
 const MainLayout = () => {
-  const location = useLocation();
-  const isHomePage = location.pathname === '/';
+    return (
+        <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900">
+            {/* Show Navbar on all pages */}
+            <Navbar />
 
-  return (
-    <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900">
-      {/* Show Navbar only on home,course detail, courses */}
-      {isHomePage || location.pathname.startsWith('/courses') ? <Navbar /> : null}
+            {/* Toast Notifications */}
+            <Toast />
 
-   
-      
+            {/* Page Content */}
+            <main className="flex-grow px-4 pt-16 md:pt-20">
+                <Outlet />
+            </main>
 
-      {/* Page Content */}
-      <main className="flex-grow px-4 py-6">
-        <Outlet />
-      </main>
-
-      {/* Show Footer only on home */}
-      {isHomePage && <Footer />}
-    </div>
-  );
+            {/* Show Footer on all pages */}
+            <Footer />
+        </div>
+    );
 };
 
 export default MainLayout;

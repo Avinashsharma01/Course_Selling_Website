@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
+    role: {
+      type: String,
+      default: "user"
+    },
     profilePicture: {
       type: String,
       default: 'https://via.placeholder.com/150'

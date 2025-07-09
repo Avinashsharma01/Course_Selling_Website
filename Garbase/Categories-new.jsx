@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileCard from "../animations/ProfileCard";
 import RotatingText from "../animations/RotatingText";
@@ -7,48 +7,28 @@ import Loader from "./Loader";
 
 const Categories = () => {
     const navigate = useNavigate();
-    const { courseCategories, categoriesLoading, fetchCourseCategories } =
-        useCourses();
-    const [categories, setCategories] = useState([]);
-    const [hasLoaded, setHasLoaded] = useState(false);
+    const { courses, coursesLoading, fetchAllCourses } = useCourses();
 
     useEffect(() => {
-        let isMounted = true;
+        fetchAllCourses();
+    }, [fetchAllCourses]);
 
-        const loadCategories = async () => {
-            if (!hasLoaded) {
-                try {
-                    await fetchCourseCategories();
-                    if (isMounted) {
-                        setHasLoaded(true);
-                    }
-                } catch (err) {
-                    console.error("Error loading categories:", err);
-                }
-            }
-        };
+    const categories = useMemo(() => {
+        if (!courses || courses.length === 0) return [];
 
-        loadCategories();
-
-        return () => {
-            isMounted = false;
-        };
-    }, [fetchCourseCategories, hasLoaded]);
-
-    // Transform categories into display items
-    useEffect(() => {
-        if (courseCategories && courseCategories.length > 0) {
-            // Convert the category strings into richer objects with image and description
-            const categoryItems = courseCategories
-                .slice(0, 3)
-                .map((category) => ({
-                    name: category,
-                    desc: `Explore courses in ${category}`,
-                    avatar: "https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg",
-                }));
-            setCategories(categoryItems);
-        }
-    }, [courseCategories]);
+        return Array.from(
+            new Map(
+                courses.map((course) => [
+                    course.category,
+                    {
+                        name: course.category,
+                        desc: course.description,
+                        avatar: course.image,
+                    },
+                ])
+            ).values()
+        ).slice(0, 3);
+    }, [courses]);
 
     return (
         <section className="min-h-screen py-24 bg-gradient-to-b from-slate-50 to-slate-100">
@@ -83,7 +63,7 @@ const Categories = () => {
                     Explore fields you're passionate about and start learning.
                 </p>
 
-                {categoriesLoading ? (
+                {coursesLoading ? (
                     <div className="flex justify-center items-center h-64">
                         <Loader />
                     </div>
