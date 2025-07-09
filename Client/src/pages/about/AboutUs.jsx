@@ -35,7 +35,7 @@ const AboutUs = () => {
   return (
     <div className="bg-slate-50 min-h-screen w-full text-gray-800">
       {/* Hero Section */}
-      <section className="pt-20 pb-10 flex justify-center">
+      <section className="pt-0 pb-10 flex justify-center">
         <TrueFocus
           sentence="About Us"
           manualMode={false}
