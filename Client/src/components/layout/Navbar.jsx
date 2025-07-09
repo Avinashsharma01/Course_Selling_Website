@@ -119,7 +119,7 @@ const Navbar = () => {
             className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
                 isScrolled
                     ? "bg-white text-blue-800 shadow-lg"
-                    : "bg-blue-700 text-white"
+                    : "bg-blue-700 text-black"
             }`}
         >
             <div className="w-full px-6 py-3">
@@ -227,6 +227,17 @@ const Navbar = () => {
                         >
                             All Courses
                         </Link>
+                        <Link
+                            to="/about"
+                            className={`text-sm font-medium transition-colors ${
+                                isScrolled
+                                    ? "text-blue-800 hover:text-blue-600"
+                                    : "text-white hover:text-blue-200"
+                            }`}
+                        >
+                            About
+                        </Link>
+                        
 
                         <Link
                             to="/contact"
