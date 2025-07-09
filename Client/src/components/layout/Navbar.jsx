@@ -238,6 +238,7 @@ const Navbar = () => {
                         >
                             Contact
                         </Link>
+                        {/* 
                         <Link
                             to="/admin/dashboard"
                             className={`text-sm font-medium transition-colors ${
@@ -248,6 +249,7 @@ const Navbar = () => {
                         >
                             Dashboard
                         </Link>
+                         */}
                     </div>
 
                     {/* Right: Search & User */}
