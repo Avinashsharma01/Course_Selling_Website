@@ -6,6 +6,11 @@ import RotatingText from "../animations/RotatingText";
 import { useCourses } from "../../hooks/useCourses";
 import Loader from "./Loader";
 
+// ✅ Import your local images
+import businessImg from "../../assets/categoryimage/business.jpg";
+import webDevImg from "../../assets/categoryimage/web.jpg";
+import designImg from "../../assets/categoryimage/design.jpg";
+
 const Categories = () => {
   const navigate = useNavigate();
   const { courseCategories, categoriesLoading, fetchCourseCategories } = useCourses();
@@ -34,16 +39,27 @@ const Categories = () => {
     };
   }, [fetchCourseCategories, hasLoaded]);
 
-  // Show only top 3 important categories
+  // Load top 3 categories with separate local images
   useEffect(() => {
     if (courseCategories && courseCategories.length > 0) {
-      const topCategories = ["Business", "Web Development", "Design"];
-      const selected = topCategories.map((name) => ({
-        name,
-        desc: `Explore top courses in ${name}`,
-        avatar: "https://cdn.pixabay.com/photo/2025/06/11/22/12/kackar-mountains-9655201_1280.jpg",
-      }));
-      setSelectedCategories(selected);
+      const topCategories = [
+        {
+          name: "Business",
+          desc: "Explore top courses in Business",
+          avatar: businessImg,
+        },
+        {
+          name: "Web Development",
+          desc: "Explore top courses in Web Development",
+          avatar: webDevImg,
+        },
+        {
+          name: "Design",
+          desc: "Explore top courses in Design",
+          avatar: designImg,
+        },
+      ];
+      setSelectedCategories(topCategories);
     }
   }, [courseCategories]);
 
