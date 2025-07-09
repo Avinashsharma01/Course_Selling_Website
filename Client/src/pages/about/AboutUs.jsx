@@ -36,16 +36,25 @@ const AboutUs = () => {
     <div className="bg-slate-50 min-h-screen w-full text-gray-800">
       {/* Hero Section */}
       <section className="pt-0 pb-10 flex justify-center">
-        <TrueFocus
-          sentence="About Us"
-          manualMode={false}
-          blurAmount={5}
-          borderColor="#2563eb"
-          glowColor="rgba(37, 99, 235, 0.5)"
-          animationDuration={0.6}
-          pauseBetweenAnimations={1}
-        />
-      </section>
+  <div className="relative">
+    {/* 3D Popped Background */}
+    <div className="absolute inset-0 blur-md bg-gradient-to-r from-blue-300 via-white to-blue-300 shadow-2xl rounded-xl scale-105 z-0"></div>
+
+    {/* Foreground Text with TrueFocus */}
+    <div className="relative z-10 bg-white/70 backdrop-blur-md px-8 py-6 rounded-xl shadow-xl border border-blue-100">
+      <TrueFocus
+        sentence="About Us"
+        manualMode={false}
+        blurAmount={5}
+        borderColor="#2563eb"
+        glowColor="rgba(37, 99, 235, 0.5)"
+        animationDuration={0.6}
+        pauseBetweenAnimations={1}
+      />
+    </div>
+  </div>
+</section>
+
 
       {/* Banner Image */}
       <section className="w-full h-[500px] md:h-[650px] relative z-0">
