@@ -43,40 +43,40 @@ const Categories = () => {
   useEffect(() => {
     if (courseCategories && courseCategories.length > 0) {
       const topCategories = [
-  {
-    name: "Business",
-    desc: (
-      <>
-        Explore top courses in Business <br />
-        • Leadership & Management <br />
-        • Sales & Communication
-      </>
-    ),
-    avatar: businessImg,
-  },
-  {
-    name: "Web Development",
-    desc: (
-      <>
-        Explore top courses in Web Development <br />
-        • Frontend & Backend Skills <br />
-        • Project-Based Learning
-      </>
-    ),
-    avatar: webDevImg,
-  },
-  {
-    name: "Design",
-    desc: (
-      <>
-        Explore top courses in Design <br />
-        • UI/UX & Graphic Tools <br />
-        • Creative Design Thinking
-      </>
-    ),
-    avatar: designImg,
-  },
-];
+        {
+          name: "Business",
+          desc: (
+            <>
+              Explore top courses in Business <br />
+              • Leadership & Management <br />
+              • Sales & Communication
+            </>
+          ),
+          avatar: businessImg,
+        },
+        {
+          name: "Web Development",
+          desc: (
+            <>
+              Explore top courses in Web Development <br />
+              • Frontend & Backend Skills <br />
+              • Project-Based Learning
+            </>
+          ),
+          avatar: webDevImg,
+        },
+        {
+          name: "Design",
+          desc: (
+            <>
+              Explore top courses in Design <br />
+              • UI/UX & Graphic Tools <br />
+              • Creative Design Thinking
+            </>
+          ),
+          avatar: designImg,
+        },
+      ];
 
       setSelectedCategories(topCategories);
     }
