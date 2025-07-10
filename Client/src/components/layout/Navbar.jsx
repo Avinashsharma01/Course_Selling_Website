@@ -150,7 +150,7 @@ const Navbar = () => {
                         >
                             <FaGraduationCap className="mr-2" />
                             <span className="hidden sm:inline-block">
-                                CourseSelling
+                                Learnify
                             </span>
                             <span className="sm:hidden">CS</span>
                         </Link>

@@ -9,7 +9,7 @@ import "./privacy-Policy.css";
 const sections = [
     {
         title: "1. Introduction",
-        desc: "Welcome to CourseSelling! Your privacy matters to us. This page explains how we collect, use, and protect your personal data when using our platform.",
+        desc: "Welcome to Learnify! Your privacy matters to us. This page explains how we collect, use, and protect your personal data when using our platform.",
     },
     {
         title: "2. Information We Collect",
@@ -84,7 +84,7 @@ const PrivacyPolicy = () => {
 
             {/* Footer */}
             {/* <footer className="privacy-footer">
-        <p>© {new Date().getFullYear()} CourseSelling. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Learnify. All rights reserved.</p>
       </footer> */}
         </div>
     );
