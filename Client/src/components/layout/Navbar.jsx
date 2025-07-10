@@ -123,7 +123,7 @@ const Navbar = () => {
             }`}
         >
             <div className="w-full px-6 py-3">
-                <div className="flex items-center justify-between w-full">
+                <div className="flex items-center justify-around w-full">
                     {/* Left: Logo & Mobile Menu Button */}
                     <div className="flex items-center space-x-4">
                         {/* Mobile menu button */}
