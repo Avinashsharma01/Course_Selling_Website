@@ -4,10 +4,18 @@
 
 This document provides comprehensive documentation for the backend API of the Course Selling Website. It details all available endpoints, request/response formats, authentication mechanisms, and data models that frontend developers need to integrate with the backend.
 
+### Recent Updates
+
+-   **New Endpoints**: Added `/courses/featured` and `/courses/categories` endpoints for better frontend integration
+-   **Enhanced Admin Features**: Added user management endpoints for admins (`/user/all`, `/user/:id`)
+-   **Improved Security**: Comprehensive middleware stack with authentication, authorization, and input validation
+-   **Better Error Handling**: Standardized error responses with detailed validation error formats
+-   **Enhanced Documentation**: Updated all endpoint documentation with accurate request/response formats
+
 ## Base URL
 
 ```
-http://localhost:5000/api
+http://localhost:3000/api || http://localhost:5000/api
 ```
 
 ## Authentication
@@ -136,6 +144,56 @@ Authorization: Bearer <your_token>
         "interests": ["Data Science", "Mobile Development"]
     }
     ```
+
+#### Get All Users (Admin Only)
+
+-   **URL**: `/user/all`
+-   **Method**: `GET`
+-   **Auth Required**: Yes (Admin only)
+-   **Success Response**: `200 OK`
+    ```json
+    [
+        {
+            "_id": "user_id_1",
+            "name": "John Doe",
+            "email": "john@example.com",
+            "profilePicture": "https://via.placeholder.com/150",
+            "phoneNumber": "1234567890",
+            "interests": ["Web Development", "Machine Learning"],
+            "enrolledCourseCount": 3,
+            "createdAt": "timestamp",
+            "updatedAt": "timestamp"
+        },
+        {
+            "_id": "user_id_2",
+            "name": "Jane Smith",
+            "email": "jane@example.com",
+            "profilePicture": "https://via.placeholder.com/150",
+            "phoneNumber": "0987654321",
+            "interests": ["Data Science", "AI"],
+            "enrolledCourseCount": 2,
+            "createdAt": "timestamp",
+            "updatedAt": "timestamp"
+        }
+    ]
+    ```
+-   **Error Response**: `403 Forbidden` if not an admin
+
+#### Delete User (Admin Only)
+
+-   **URL**: `/user/:id`
+-   **Method**: `DELETE`
+-   **Auth Required**: Yes (Admin only)
+-   **URL Parameters**: `id=[user_id]`
+-   **Success Response**: `200 OK`
+    ```json
+    {
+        "message": "User deleted successfully"
+    }
+    ```
+-   **Error Response**:
+    -   `404 Not Found` if user doesn't exist
+    -   `403 Forbidden` if not an admin
 
 ### Admin Management
 
@@ -474,6 +532,54 @@ Authorization: Bearer <your_token>
     ]
     ```
 
+#### Get Featured Courses
+
+-   **URL**: `/courses/featured`
+-   **Method**: `GET`
+-   **Auth Required**: No
+-   **Success Response**: `200 OK`
+    ```json
+    [
+        {
+            "_id": "course_id",
+            "title": "JavaScript Basics",
+            "description": "Learn JavaScript fundamentals",
+            "price": 29.99,
+            "instructor": "Jane Smith",
+            "duration": 10,
+            "level": "beginner",
+            "category": "Web Development",
+            "thumbnail": "https://example.com/thumbnail.jpg",
+            "topics": ["Variables", "Functions", "Objects"],
+            "rating": 4.5,
+            "enrollmentCount": 120,
+            "createdBy": "admin_id",
+            "createdAt": "timestamp",
+            "updatedAt": "timestamp"
+        }
+        // More featured courses (up to 6)...
+    ]
+    ```
+-   **Note**: Returns the top 6 courses sorted by enrollment count
+
+#### Get Course Categories
+
+-   **URL**: `/courses/categories`
+-   **Method**: `GET`
+-   **Auth Required**: No
+-   **Success Response**: `200 OK`
+    ```json
+    [
+        "Web Development",
+        "Data Science",
+        "Mobile Development",
+        "Machine Learning",
+        "DevOps",
+        "UI/UX Design"
+    ]
+    ```
+-   **Note**: Returns all unique course categories sorted alphabetically
+
 #### Get Admin Courses
 
 -   **URL**: `/courses/admin/my-courses`
@@ -716,6 +822,21 @@ Standard error response format:
 }
 ```
 
+Validation error response format:
+
+```json
+{
+    "errors": [
+        {
+            "type": "field",
+            "msg": "Validation error message",
+            "path": "fieldName",
+            "location": "body"
+        }
+    ]
+}
+```
+
 Special handling is implemented for:
 
 -   Mongoose validation errors
@@ -774,7 +895,7 @@ Special handling is implemented for:
   topics: [String],       // Array of strings
   rating: Number,         // Min: 0, Max: 5, default: 0
   enrollmentCount: Number, // Default: 0
-  createdBy: ObjectId,    // Reference to User model (admin who created the course)
+  createdBy: ObjectId,    // Reference to Admin model (admin who created the course)
   createdAt: Date,        // Automatically added
   updatedAt: Date         // Automatically added
 }
@@ -831,6 +952,8 @@ Special handling is implemented for:
     npm install express-validator express-rate-limit helmet morgan
     ```
 
+**Note**: Rate limiting is currently commented out in the main server file but can be enabled by uncommenting the relevant lines in `server.js` and `middleware/rateLimiter.js`.
+
 ## Testing
 
 You can test all API endpoints using Postman or any other API testing tool by importing the provided Postman collection (if available).
@@ -851,6 +974,8 @@ You can test all API endpoints using Postman or any other API testing tool by im
     - Use the `/courses` endpoint with query parameters for filtering, sorting and pagination
     - Implement search functionality using the `/courses/search` endpoint
     - Display category-specific courses using the `/courses/category/:category` endpoint
+    - Use `/courses/featured` to get the top 6 courses by enrollment count for homepage display
+    - Use `/courses/categories` to get all available course categories for filter dropdowns
     - Utilize the enhanced course model fields (thumbnail, level, duration, etc.) for richer UI
 
 3. **User Dashboard**:
@@ -868,6 +993,8 @@ You can test all API endpoints using Postman or any other API testing tool by im
     - Show clear feedback when admin tries to edit/delete courses they don't own
     - Super admins (with `isSuperAdmin: true`) can manage all courses and other admins
     - Use the admin-specific endpoints for admin management
+    - Use `/user/all` to display all users for admin user management
+    - Use `/user/:id` (DELETE) to allow admins to delete users
 
 5. **Error Handling**:
     - Implement proper error handling using the standardized API error responses
@@ -882,7 +1009,16 @@ You can test all API endpoints using Postman or any other API testing tool by im
 -   Helmet for security headers
 -   CORS configuration
 -   Comprehensive input validation using express-validator
--   Rate limiting to prevent brute-force attacks
+    -   User registration: name, email, password (min 6 chars)
+    -   User login: email, password
+    -   Course creation: title, description, price (numeric), instructor, duration (optional numeric), level (optional: beginner/intermediate/advanced), category
+    -   Contact form: name, email, message
+    -   Enrollment: courseId (valid MongoDB ObjectId)
+-   Rate limiting to prevent brute-force attacks (currently commented out but available)
+-   HTTP request logging with Morgan
+-   CORS configuration for cross-origin requests
+-   Global error handler with standardized error responses
+-   404 handler for non-existing routes
 -   Centralized error handling
 -   Role-based access control (user, admin, super admin)
 -   Course ownership verification

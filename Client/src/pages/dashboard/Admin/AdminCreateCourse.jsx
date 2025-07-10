@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaImage, FaPlus, FaTimes } from "react-icons/fa";
 import { useAuth } from "../../../hooks/useAuth";
-import { useCourses } from "../../../hooks/useCourses";
 import { useToast } from "../../../hooks/useToast";
 import courseService from "../../../api/services/courseService";
 import Loader from "../../../components/common/Loader";
@@ -10,7 +9,6 @@ import Loader from "../../../components/common/Loader";
 const AdminCreateCourse = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const { fetchAdminCourses } = useCourses();
     const { showToast } = useToast();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -126,15 +124,29 @@ const AdminCreateCourse = () => {
 
         setIsLoading(true);
         try {
-            await courseService.addCourse(courseData);
-            await fetchAdminCourses(); // Refresh admin courses list
+            const response = await courseService.addCourse(courseData);
+            console.log("Course creation response:", response);
+
+            // Show success message
             showToast("Course created successfully!", "success");
+
+            // Navigate to admin dashboard and let it handle the refresh
             navigate("/admin/dashboard");
         } catch (error) {
-            showToast(
-                error?.response?.data?.message || "Failed to create course",
-                "error"
-            );
+            console.error("Error creating course:", error);
+
+            // Better error handling
+            let errorMessage = "Failed to create course";
+
+            if (error?.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error?.message) {
+                errorMessage = error.message;
+            } else if (typeof error === "string") {
+                errorMessage = error;
+            }
+
+            showToast(errorMessage, "error");
         } finally {
             setIsLoading(false);
         }

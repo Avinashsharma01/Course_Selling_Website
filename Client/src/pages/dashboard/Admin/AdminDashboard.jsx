@@ -248,14 +248,31 @@ const AdminDashboard = () => {
             ITEMS_PER_PAGE
     );
 
+    // Auto-reset confirmation state after 10 seconds
+    useEffect(() => {
+        if (confirmDelete) {
+            const timer = setTimeout(() => {
+                setConfirmDelete(null);
+            }, 10000); // 10 seconds
+
+            return () => clearTimeout(timer);
+        }
+    }, [confirmDelete]);
+
     // Handle course deletion - memoized to avoid infinite loops with showToast
     const handleDeleteCourse = useCallback(
         async (courseId) => {
+            // First click - show confirmation
             if (confirmDelete !== courseId) {
                 setConfirmDelete(courseId);
+                showToast(
+                    "Click delete again to confirm deletion (expires in 10 seconds)",
+                    "warning"
+                );
                 return;
             }
 
+            // Second click - actually delete
             setIsLoading(true);
             try {
                 console.log("Attempting to delete course:", courseId);
@@ -636,14 +653,26 @@ const AdminDashboard = () => {
                                                                         className={`${
                                                                             confirmDelete ===
                                                                             course._id
-                                                                                ? "text-red-600"
-                                                                                : "text-gray-500"
-                                                                        } hover:text-red-800`}
+                                                                                ? "text-red-600 bg-red-100 px-3 py-1 rounded-md border border-red-300 font-medium"
+                                                                                : "text-gray-500 hover:text-red-600"
+                                                                        } transition-all duration-200 flex items-center gap-1`}
                                                                         disabled={
                                                                             isLoading
                                                                         }
+                                                                        title={
+                                                                            confirmDelete ===
+                                                                            course._id
+                                                                                ? "Click again to confirm deletion"
+                                                                                : "Delete course"
+                                                                        }
                                                                     >
                                                                         <FaTrash />
+                                                                        {confirmDelete ===
+                                                                            course._id && (
+                                                                            <span className="text-xs">
+                                                                                Confirm?
+                                                                            </span>
+                                                                        )}
                                                                     </button>
                                                                 </div>
                                                             </td>

@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5000/api', // Updated to match API documentation
+  // import.meta.env.VITE_API_BASE_URL || 
+  // baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://course-selling-server-36u8.onrender.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
