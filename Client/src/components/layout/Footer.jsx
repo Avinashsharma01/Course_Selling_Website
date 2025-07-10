@@ -123,7 +123,7 @@ const Footer = () => {
                                         />
                                     </div>
                                     <span className="text-sm">
-                                        +91 9876543210
+                                        +91 1234567890
                                     </span>
                                 </li>
                                 <li className="flex items-center gap-3 text-slate-300 hover:text-white transition-colors duration-300 group">
@@ -134,7 +134,7 @@ const Footer = () => {
                                         />
                                     </div>
                                     <span className="text-sm">
-                                        Mumbai, India
+                                        Uttar Pradesh, India
                                     </span>
                                 </li>
                             </ul>
@@ -193,8 +193,7 @@ const Footer = () => {
                 <div className="max-w-7xl mx-auto px-6 py-6">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <div className="text-slate-400 text-sm flex items-center gap-2">
-                            © {new Date().getFullYear()} Learnify. Made
-                            with
+                            © {new Date().getFullYear()} Learnify. Made with
                             <Heart
                                 size={16}
                                 className="text-red-500 animate-pulse"
