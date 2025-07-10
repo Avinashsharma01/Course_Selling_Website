@@ -46,6 +46,30 @@ A full-stack modern course marketplace built with React.js, Node.js, Express.js,
 -   **Security Headers** - Helmet.js for security headers
 -   **CORS Configuration** - Proper cross-origin resource sharing setup
 
+## 🌐 Live Demo
+
+### 🚀 Production Deployment
+
+-   **Backend API**: [https://course-selling-server-36u8.onrender.com/api](https://course-selling-server-36u8.onrender.com/api)
+-   **Frontend**: _Coming soon - Deploy your frontend and add the link here_
+
+### 🔗 API Endpoints
+
+You can test the live API endpoints using tools like Postman or curl:
+
+```bash
+# Get all courses
+curl https://course-selling-server-36u8.onrender.com/api/courses
+
+# Get featured courses
+curl https://course-selling-server-36u8.onrender.com/api/courses/featured
+
+# Get course categories
+curl https://course-selling-server-36u8.onrender.com/api/courses/categories
+```
+
+_Note: The backend is deployed on Render's free tier, so the first request might take a moment to wake up the server._
+
 ## 🛠️ Tech Stack
 
 ### Frontend
@@ -116,6 +140,18 @@ A full-stack modern course marketplace built with React.js, Node.js, Express.js,
     ```
 
     Create `.env` file in the `Client` directory:
+
+    ```env
+    # For production (using deployed backend)
+    VITE_API_BASE_URL=https://course-selling-server-36u8.onrender.com/api
+    ```
+
+    Or create `.env.local` for local development:
+
+    ```env
+    # For local development
+    VITE_API_BASE_URL=http://localhost:3000/api
+    ```
 
     ```env
     VITE_API_BASE_URL=http://localhost:3000/api
@@ -239,6 +275,14 @@ course-selling-platform/
 
 ### Base URL
 
+**Production:**
+
+```
+https://course-selling-server-36u8.onrender.com/api
+```
+
+**Local Development:**
+
 ```
 http://localhost:3000/api
 ```
@@ -309,37 +353,46 @@ Authorization: Bearer <your_token>
 #### Register a User
 
 ```bash
-POST /api/user/register
-Content-Type: application/json
-
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "password123",
-  "phoneNumber": "1234567890",
-  "interests": ["Web Development", "Machine Learning"]
-}
+# Production
+curl -X POST https://course-selling-server-36u8.onrender.com/api/user/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password123",
+    "phoneNumber": "1234567890",
+    "interests": ["Web Development", "Machine Learning"]
+  }'
 ```
 
 #### Create a Course (Admin)
 
 ```bash
-POST /api/courses/admin
-Authorization: Bearer <admin_token>
-Content-Type: application/json
-
-{
-  "title": "Advanced React Development",
-  "description": "Deep dive into React concepts",
-  "price": 49.99,
-  "instructor": "John Smith",
-  "duration": 15,
-  "level": "intermediate",
-  "category": "Web Development",
-  "thumbnail": "https://example.com/thumbnail.jpg",
-  "topics": ["React Hooks", "Context API", "Redux"]
-}
+# Production
+curl -X POST https://course-selling-server-36u8.onrender.com/api/courses/admin \
+  -H "Authorization: Bearer <admin_token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Advanced React Development",
+    "description": "Deep dive into React concepts",
+    "price": 49.99,
+    "instructor": "John Smith",
+    "duration": 15,
+    "level": "intermediate",
+    "category": "Web Development",
+    "thumbnail": "https://example.com/thumbnail.jpg",
+    "topics": ["React Hooks", "Context API", "Redux"]
+  }'
 ```
+
+"duration": 15,
+"level": "intermediate",
+"category": "Web Development",
+"thumbnail": "https://example.com/thumbnail.jpg",
+"topics": ["React Hooks", "Context API", "Redux"]
+}
+
+````
 
 ### Error Handling
 
@@ -353,7 +406,7 @@ The API uses standard HTTP status codes and returns errors in the following form
         "stack": "Stack trace (development only)"
     }
 }
-```
+````
 
 Validation errors return:
 
