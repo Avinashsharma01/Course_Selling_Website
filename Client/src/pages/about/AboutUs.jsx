@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import teamImage from "../../assets/about-us.png";
+import React from "react";;
 import TrueFocus from "../../components/animations/TrueFocus";
 import Stack from "../../components/animations/Stack";
 import GridMotion from "../../components/animations/GridMotion";
