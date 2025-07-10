@@ -109,7 +109,7 @@ const Navbar = () => {
     //     console.log("okokokokokokko");
     // }
 
-    // console.log("Admin", user.role);
+    // console.log("Admin", user);
     // if (user.role == "admin") {
     //     console.log("okokokokokokko");
     // }
@@ -237,7 +237,6 @@ const Navbar = () => {
                         >
                             About
                         </Link>
-                        
 
                         <Link
                             to="/contact"
@@ -249,6 +248,18 @@ const Navbar = () => {
                         >
                             Contact
                         </Link>
+                        {/* {user.isSuperAdmin == false && (
+                            <Link
+                                to="/admin/dashboard"
+                                className={`text-sm font-medium transition-colors ${
+                                    isScrolled
+                                        ? "text-blue-800 hover:text-blue-600"
+                                        : "text-white hover:text-blue-200"
+                                }`}
+                            >
+                                Dashboard
+                            </Link>
+                        )} */}
                         {/* 
                         <Link
                             to="/admin/dashboard"
@@ -359,10 +370,12 @@ const Navbar = () => {
                                                 className="flex items-center px-4 py-2 hover:bg-blue-50 text-gray-700"
                                             >
                                                 <FaBook className="mr-2 text-blue-600" />
-                                                My Learning
+                                                {user.isSuperAdmin == false
+                                                    ? "Admin Panel"
+                                                    : "My Learning"}
                                             </Link>
 
-                                            {user.isAdmin && (
+                                            {/* {user.isAdmin && (
                                                 <Link
                                                     to="/dashboard/admin"
                                                     className="flex items-center px-4 py-2 hover:bg-blue-50 text-gray-700"
@@ -370,7 +383,7 @@ const Navbar = () => {
                                                     <FaShieldAlt className="mr-2 text-purple-600" />
                                                     Admin Panel
                                                 </Link>
-                                            )}
+                                            )} */}
 
                                             <Link
                                                 to="/profile"
