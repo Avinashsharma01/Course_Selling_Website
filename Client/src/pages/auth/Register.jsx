@@ -1,4 +1,5 @@
-import registerImage from "../../assets/react.svg"; // or reuse login image
+import registerImage from "../../assets/5191079.jpg";
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
@@ -8,13 +9,15 @@ const Register = () => {
     const { register } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();
+
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         password: "",
         phoneNumber: "",
-        interests: [], // For user registration
+        interests: [],
+        profilePicture: null, // ✅ New field
     });
 
     const handleChange = (e) => {
@@ -28,8 +31,13 @@ const Register = () => {
             ...prev,
             interests: checked
                 ? [...prev.interests, value]
-                : prev.interests.filter((interest) => interest !== value),
+                : prev.interests.filter((i) => i !== value),
         }));
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setFormData((prev) => ({ ...prev, profilePicture: file }));
     };
 
     const handleSubmit = async (e) => {
@@ -37,13 +45,23 @@ const Register = () => {
         setIsLoading(true);
 
         try {
-            await register(formData, false); // false for user registration
+            // ✅ Create formData for image upload
+            const data = new FormData();
+            data.append("name", formData.name);
+            data.append("email", formData.email);
+            data.append("password", formData.password);
+            data.append("phoneNumber", formData.phoneNumber);
+            formData.interests.forEach((i) => data.append("interests[]", i));
+            if (formData.profilePicture) {
+                data.append("profilePicture", formData.profilePicture);
+            }
+
+            await register(data, false); // Your backend must support FormData
 
             showToast(
                 `Registration successful! Welcome ${formData.name}!`,
                 "success"
             );
-
             navigate("/dashboard");
         } catch (error) {
             showToast(
@@ -60,16 +78,16 @@ const Register = () => {
     return (
         <div className="min-h-[80vh] flex items-center justify-center p-4">
             <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
-                {/* Left: Image */}
-                <div className="hidden md:flex items-center justify-center bg-blue-100">
-                    <img
-                        src={registerImage}
-                        alt="Register Visual"
-                        className="w-3/4"
-                    />
-                </div>
+                <div className="hidden md:flex items-center justify-center bg-blue-100 p-4">
+  <img
+    src={registerImage}
+    alt="Register"
+    className="h-[100%] w-full object-contain"
+  />
+</div>
 
-                {/* Right: Register Form */}
+
+                {/* Right Side */}
                 <div className="p-8 sm:p-12">
                     <h2 className="text-3xl font-bold text-blue-700 mb-6">
                         Create User Account
@@ -79,6 +97,7 @@ const Register = () => {
                     </p>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
+                        {/* Name */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Full Name
@@ -87,13 +106,14 @@ const Register = () => {
                                 type="text"
                                 name="name"
                                 value={formData.name}
-                                placeholder="Your name"
                                 required
-                                className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 onChange={handleChange}
+                                className="w-full border px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-400"
+                                placeholder="Your name"
                             />
                         </div>
 
+                        {/* Email */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Email
@@ -102,13 +122,14 @@ const Register = () => {
                                 type="email"
                                 name="email"
                                 value={formData.email}
-                                placeholder="you@example.com"
                                 required
-                                className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 onChange={handleChange}
+                                className="w-full border px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-400"
+                                placeholder="you@example.com"
                             />
                         </div>
 
+                        {/* Password */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Password
@@ -117,14 +138,15 @@ const Register = () => {
                                 type="password"
                                 name="password"
                                 value={formData.password}
-                                placeholder="Create a password (min 6 characters)"
                                 required
                                 minLength="6"
-                                className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 onChange={handleChange}
+                                className="w-full border px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-400"
+                                placeholder="Minimum 6 characters"
                             />
                         </div>
 
+                        {/* Phone */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Phone Number
@@ -133,12 +155,26 @@ const Register = () => {
                                 type="tel"
                                 name="phoneNumber"
                                 value={formData.phoneNumber}
-                                placeholder="Your phone number"
-                                className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 onChange={handleChange}
+                                className="w-full border px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-400"
+                                placeholder="Your phone number"
                             />
                         </div>
 
+                        {/* ✅ Profile Picture */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Profile Picture
+                            </label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            />
+                        </div>
+
+                        {/* Interests */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Interests
@@ -152,25 +188,15 @@ const Register = () => {
                                     "DevOps",
                                     "Cloud Computing",
                                 ].map((interest) => (
-                                    <div
-                                        className="flex items-center"
-                                        key={interest}
-                                    >
+                                    <div key={interest} className="flex items-center">
                                         <input
                                             type="checkbox"
-                                            id={interest}
-                                            name="interests"
                                             value={interest}
-                                            checked={formData.interests.includes(
-                                                interest
-                                            )}
+                                            checked={formData.interests.includes(interest)}
                                             onChange={handleInterestChange}
-                                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                            className="w-4 h-4 text-blue-600 border-gray-300 rounded"
                                         />
-                                        <label
-                                            htmlFor={interest}
-                                            className="ml-2 text-sm text-gray-700"
-                                        >
+                                        <label className="ml-2 text-sm text-gray-700">
                                             {interest}
                                         </label>
                                     </div>
@@ -178,36 +204,27 @@ const Register = () => {
                             </div>
                         </div>
 
+                        {/* Submit Button */}
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200 
-                                ${
-                                    isLoading
-                                        ? "opacity-70 cursor-not-allowed"
-                                        : ""
-                                }
-                            `}
+                            className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200 ${
+                                isLoading ? "opacity-70 cursor-not-allowed" : ""
+                            }`}
                         >
                             {isLoading ? "Registering..." : "Register"}
                         </button>
                     </form>
 
-                    <div className="mt-6 flex flex-col space-y-2">
-                        <p className="text-sm text-gray-500">
+                    <div className="mt-6 text-sm text-gray-500 space-y-2">
+                        <p>
                             Already have an account?{" "}
-                            <Link
-                                to="/auth/login"
-                                className="text-blue-600 hover:underline"
-                            >
+                            <Link to="/auth/login" className="text-blue-600 hover:underline">
                                 Login here
                             </Link>
                         </p>
-                        <p className="text-sm text-gray-500">
-                            <Link
-                                to="/auth/admin/register"
-                                className="text-blue-600 hover:underline"
-                            >
+                        <p>
+                            <Link to="/auth/admin/register" className="text-blue-600 hover:underline">
                                 Register as Admin instead
                             </Link>
                         </p>
