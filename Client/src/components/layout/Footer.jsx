@@ -24,7 +24,7 @@ const Footer = () => {
                         <div className="md:col-span-2">
                             <div className="group cursor-pointer mb-6">
                                 <h3 className="text-3xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent group-hover:from-emerald-300 group-hover:to-cyan-300 transition-all duration-300">
-                                    🎓 CourseSelling
+                                    🎓 Learnify
                                 </h3>
                                 <p className="text-slate-300 leading-relaxed max-w-md group-hover:text-white transition-colors duration-300">
                                     Empower your career with high-quality,
@@ -112,7 +112,7 @@ const Footer = () => {
                                         />
                                     </div>
                                     <span className="text-sm">
-                                        support@courseselling.com
+                                        support@Learnify.com
                                     </span>
                                 </li>
                                 <li className="flex items-center gap-3 text-slate-300 hover:text-white transition-colors duration-300 group">
@@ -193,7 +193,7 @@ const Footer = () => {
                 <div className="max-w-7xl mx-auto px-6 py-6">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <div className="text-slate-400 text-sm flex items-center gap-2">
-                            © {new Date().getFullYear()} CourseSelling. Made
+                            © {new Date().getFullYear()} Learnify. Made
                             with
                             <Heart
                                 size={16}

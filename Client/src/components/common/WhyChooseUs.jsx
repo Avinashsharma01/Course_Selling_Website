@@ -39,7 +39,7 @@ const WhyChooseUs = () => {
       <div className="max-w-7xl mx-auto text-center">
         <div className="flex justify-center">
           <BlurText
-            text="💡 Why Choose CourseSelling?"
+            text="💡 Why Choose Learnify?"
             delay={120}
             animateBy="words"
             direction="top"
@@ -186,7 +186,7 @@ export default WhyChooseUs;
 //             <div className="max-w-7xl mx-auto text-center">
 //                 <div className="flex justify-center">
 //                     <BlurText
-//                         text="💡 Why Choose CourseSelling?"
+//                         text="💡 Why Choose Learnify?"
 //                         delay={120}
 //                         animateBy="words"
 //                         direction="top"

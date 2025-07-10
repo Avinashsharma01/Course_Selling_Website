@@ -75,7 +75,7 @@ const Dashboard = () => {
             <aside className="w-72 bg-white border-r p-6">
                 <div className="mb-10">
                     <h2 className="text-xl font-bold text-blue-700 mb-2">
-                        🎓 CourseSelling
+                        🎓 Learnify
                     </h2>
                     <div className="text-gray-500 text-sm">
                         Student Dashboard

@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-import banner1 from "../../assets/banner/1.png";
-import banner2 from "../../assets/banner/2.png";
-import banner3 from "../../assets/banner/3.png";
+import banner1 from "../../assets/banner/1.webp";
+import banner2 from "../../assets/banner/2.webp";
+import banner3 from "../../assets/banner/3.webp";
 
 const slides = [
   {

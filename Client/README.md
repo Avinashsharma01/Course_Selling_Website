@@ -191,7 +191,7 @@ yarn install
 
 ```env
 VITE_API_BASE_URL=http://localhost:5000/api
-VITE_APP_NAME=CourseSelling
+VITE_APP_NAME=Learnify
 VITE_CLOUDINARY_CLOUD_NAME=your_cloudinary_name
 VITE_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
 ```
