@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import introImg from "../../assets/s12.jpg";
 import contactImg from "../../assets/s22.jpg";
-import "./privacy-policy.css";
+import "./privacy-Policy.css";
 
 const sections = [
     {
